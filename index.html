@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link href="css/bootstrap.min.css" rel="stylesheet" />
+		<style type="text/css" >
+			canvas{
+				cursor:'hand'
+			}
+		</style>
+		<!--<script language="JavaScript" src="js/tools.js" ></script>-->
+		<script language="JavaScript" src="js/FemyEngine.js"></script>
+		<script language="JavaScript" src="js/home.js" ></script>
+		<script language="JavaScript">
+		var FILE_TYPE_IMAGE = 0, FILE_TYPE_JS = 1, FILE_TYPE_MUSIC = 2, FILE_TYPE_SWF = 3;
+		
+		var canvas, context;
+		var fps;
+		var games = new Array();
+		var scene;
+		
+		//加载的资源
+		var res;
+		var iamges_mj;
+		
+		//加载界面的对象
+		var progress, loads;
+		var scene_load;
+		var canvas_x, canvas_y = 0;
+		//flash游戏对象
+		var flash_game_find, flash_game_car, flash_game_beng;
+		var game_pause = false;
+		var is_login = true;				//是否登录
+		var user_name = "";
+		var is_hint = true;					//是否有新手提示
+		var game_progress = 0;				//游戏进度
+		var current_scene = "";
+		var myajax;
+		function load_from_server(){
+			//game_progress:
+			/*
+			 * 0:刚进来
+			 * 1:第一关闯关失败
+			 * 2:第一个关卡闯关成功！
+			 * 3:系统提示的独白
+			 * 4:和老汉对话完毕
+			 * 5:和肉贩子对话完毕后
+			 * 6:第二关闯关成功
+			 * 7:系统提示的独白（第一次到达安多县）
+			 * 8:和医生npc对话完之后
+			 * 9:可可西里第一个触发对话
+			 * 10:可可西里第二个触发对话
+			 * 11:第三个游戏闯关成功
+			 * 12:第四个游戏闯关成功
+			 */
+			game_progress = 0;
+			//home_scene_enter();
+			//real_time_game_map();
+			map.x = 0;
+			map.y = 0;
+			//map.show_table_line = true;
+			//slaughter_house_map();
+			//animal_protect_house_map();
+			//anduo_road_map();
+			//anduo_map();
+			//drugstore_map();
+			//lead_first_pass.setPosition(200, 50);
+			//real_time_game_map();
+			//kekexili_map();
+			home_scene_map();
+		}
+		/*
+		 * 插入排序
+		 * getURL("javascript:find_not_success()");
+		 */
+		function find_not_success(){
+			//玩家完成了当前游戏，直接到进度2
+			game_progress = 2;
+			npcs_animal_protect[0].dialog_text.setText(FRes.String.dialog2.dialog_3);
+			npcs_animal_protect[0].dialog_text.visible = true;
+			game_pause = true;
+			npcs_animal_protect[0].dialog_text.setCallFunc(function(){
+				//玩家已经成功了游戏，以下是该npc最终的显示文字
+				npcs_animal_protect[0].dialog_text.setText(FRes.String.dialog2.dialog_5);
+				npcs_animal_protect[0].dialog_text.setCallFunc(function(){});
+			});
+			
+			npcs_main[0].dialog_text.setText(null);
+			npcs_main[3].dialog_text.setText(FRes.String.dialog2.dialog_6);
+			npcs_main[3].dialog_text.setCallFunc(function(){
+				npcs_main[3].dialog_text.setText(FRes.String.dialog2.dialog_7);
+				npcs_main[3].dialog_text.setCallFunc(function(){});
+				game_progress = 4;
+			});
+			//设置肉贩市场npc对话
+			npcs_slaughter[0].dialog_text.setText(FRes.String.dialog2.dialog_8);
+			npcs_slaughter[0].dialog_text.setCallFunc(function(){
+				npcs_slaughter[0].dialog_text.setText(FRes.String.dialog2.dialog_9);
+				npcs_slaughter[0].dialog_text.setCallFunc(function(){});
+				game_progress = 5;
+			});
+			
+			find_close_window();
+		}
+		function find_not_faild(){
+			//玩家没有完成此次测验，到进度1
+			game_progress = 1;
+			npcs_animal_protect[0].dialog_text.setText(FRes.String.dialog2.dialog_4);
+			npcs_animal_protect[0].dialog_text.visible = true;
+			npcs_animal_protect[0].dialog_text.setCallFunc(function(){
+				npcs_animal_protect[0].dialog_text.setText(FRes.String.dialog2.dialog_2);
+				npcs_animal_protect[0].dialog_text.visible = false;
+				//
+				npcs_animal_protect[0].dialog_text.text_index = -1;
+				npcs_animal_protect[0].dialog_text.setCallFunc(function(){
+					flash_game_find.style.display = "";
+					game_pause = true;
+				});
+			});
+			find_close_window();
+		}
+		function find_close_window(){
+			game_pause = false;
+			flash_game_find.style.display = "none";
+		}
+		
+		function car_not_success(){
+			map.x = 0;
+			map.y = 0;
+			lead_first_pass.setPosition(860, 50);
+			map.removeObject(npc_car);
+			game_progress = 6;
+			system_dialog.setText(FRes.String.dialog2.dialog_11);
+			system_dialog.visible = true;
+			system_dialog.setCallFunc(function(){
+				
+			});
+			car_close_window();
+		}
+		function car_not_faild(){
+			car_close_window();
+		}
+		function car_close_window(){
+			game_pause = false;
+			flash_game_car.style.display = "none";
+		}
+		
+		function beng_not_success(){
+			game_progress = 11;			//玩家成功了第三个游戏，游戏进度到达11
+			system_dialog.setText(FRes.String.dialog2.dialog_17);
+			system_dialog.visible = true;
+			system_dialog.setCallFunc(function(){
+				
+			});
+			beng_close_window();
+		}
+		
+		function beng_not_faild(){
+			system_dialog.setText(FRes.String.dialog2.dialog_18);
+			system_dialog.visible = true;
+			system_dialog.setCallFunc(function(){	
+				game_progress = 8;
+				scene_first_pass.exitScene(function(){
+					//lead_first_pass.setPosition(800, 100);
+					map.x = 200;
+					map.y = 0;
+					lead_first_pass.setPosition(1200, 80);
+					anduo_map();
+				});
+			});
+			beng_close_window();
+		}
+		function beng_close_window(){
+			game_pause = false;
+			flash_game_beng.style.display = "none";
+		}
+		
+		window.onload = function(){
+			//window.close();
+			//var ss = [4, 3, 2, 5, 6, 1, 10, 9];
+			//sorts(ss, 0, ss.length - 1);
+			//console.log("result:"+ss);
+			
+			canvas = document.getElementById("my_canvas");
+			var bbpx = canvas.getBoundingClientRect();
+			canvas_x = bbpx.left;
+			cavnas_y = bbpx.top;
+			
+			context = canvas.getContext("2d");
+			context.textBaseline = "top";
+			//获取flash对象资源
+			flash_game_find = document.getElementById("flash_game_find");
+			flash_game_car = document.getElementById("flash_game_car");
+			flash_game_beng = document.getElementById("flash_game_beng");
+			
+			flash_game_find.style.left = ((canvas.width-flash_game_find.width)/2)+"px";
+			flash_game_find.style.top = ((canvas.height-flash_game_find.height)/2)+"px";
+			flash_game_car.style.left = ((canvas.width-flash_game_car.width)/2)+"px";
+			flash_game_car.style.top = ((canvas.height-flash_game_car.height)/2)+"px";
+			flash_game_beng.style.left = flash_game_find.style.left;
+			flash_game_beng.style.top = flash_game_find.style.top;
+			//flash_game_find.style.display = "";
+			//显示flash
+			//flash_game_find.style.display = "";
+			scene_load = new FGAMES.Scene();
+			scene_load.setCanvas(canvas);
+			scene_load.setBackgroundColor(20, 25, 20);
+			//进度条对象
+			progress = new ProgressBarImage();
+			//progress.init((canvas.width - 400)/2, (canvas.height-100)/2, 400, 20);
+			progress.init(scene_load.getContextBuffer(), "img/home_progress.png", (canvas.width - 353) / 2, (canvas.height - 34) / 2);
+			progress.setProgress(0);
+			
+			loads = new Load();
+			res = new Array();
+			res.push({
+				type:FILE_TYPE_IMAGE,
+				path:'img/home_progress.png',
+				object:null
+			});
+			res.push({
+				type:FILE_TYPE_IMAGE,
+				path:'img/Image1.png',
+				object:null
+			});
+			res.push({
+				type:FILE_TYPE_JS,
+				path:'js/text.js',
+				object:null
+			});
+			res.push({
+				type:FILE_TYPE_JS,
+				path:'js/tools.js',
+				object:null
+			});
+			res.push({
+				type:FILE_TYPE_IMAGE,
+				path:'img/home_background.png',
+				object:null
+			});
+			res.push({
+				type:FILE_TYPE_IMAGE,
+				path:'img/button_style.png',
+				object:null
+			});
+			res.push({
+				type:FILE_TYPE_IMAGE,
+				path:'img/button_style_click.png',
+				object:null
+			});
+			res.push({
+				type:FILE_TYPE_IMAGE,
+				path:'img/home_earth.png',
+				object:null
+			});
+			res.push({
+				type:FILE_TYPE_IMAGE,
+				path:'img/background_sky.png',
+				object:null
+			});
+			res.push({
+				type:FILE_TYPE_IMAGE,
+				path:'img/mj.png',
+				object:null
+			});
+			res.push({
+				type:FILE_TYPE_IMAGE,
+				path:'img/road.bmp',
+				object:null
+			});
+			res.push({
+				type:FILE_TYPE_IMAGE,
+				path:'img/atlas.png',
+				object:null
+			});
+			res.push({
+				type:FILE_TYPE_IMAGE,
+				path:'img/houses.png',
+				object:null
+			});
+			res.push({
+				type:FILE_TYPE_IMAGE,
+				path:'img/map_res.png',
+				object:null
+			});
+			res.push({
+				type:FILE_TYPE_JS,
+				path:'js/map_data.js',
+				object:null
+			});
+			res.push({
+				type:FILE_TYPE_JS,
+				path:'js/GameObject.js',
+				object:null
+			});
+			//加载任人物资源
+			res.push({
+				type:FILE_TYPE_IMAGE,
+				path:'img/leading.png',
+				object:null
+			});
+			//加载游戏
+			res.push({
+				type:FILE_TYPE_JS,
+				path:'js/Game.js',
+				object:null
+			});
+			res.push({
+				type:FILE_TYPE_IMAGE,
+				path:'other_res/test_character.png',
+				object:null
+			});
+			res.push({
+				type:FILE_TYPE_IMAGE,
+				path:'img/trees.png',
+				object:null
+			});
+			res.push({
+				type:FILE_TYPE_JS,
+				path:'js/resources.js',
+				object:null
+			});
+			//21
+			res.push({
+				type:FILE_TYPE_IMAGE,
+				path:'img/roads.png',
+				object:null
+			});
+			res.push({
+				type:FILE_TYPE_IMAGE,
+				path:'img/bubble.png',
+				object:null
+			});
+			res.push({
+				type:FILE_TYPE_JS,
+				path:'js/arithmetic.js',
+				object:null
+			});
+			res.push({
+				type:FILE_TYPE_IMAGE,
+				path:'img/tufu.png',
+				object:null
+			});
+			res.push({
+				type:FILE_TYPE_JS,
+				path:'js/Game2.js',
+				object:null
+			});
+			res.push({
+				type:FILE_TYPE_IMAGE,
+				path:'img/lead_qiang.png',
+				object:null
+			});
+			res.push({
+				type:FILE_TYPE_IMAGE,
+				path:'img/zhangguan.png',
+				object:null
+			});
+			res.push({
+				type:FILE_TYPE_IMAGE,
+				path:'img/animals.png',
+				object:null
+			});
+			res.push({
+				type:FILE_TYPE_MUSIC,
+				path:'music/hint.mp3',
+				object:null
+			});
+			res.push({
+				type:FILE_TYPE_IMAGE,
+				path:'img/background_image.png',
+				object:null
+			});
+			res.push({
+				type:FILE_TYPE_IMAGE,
+				path:'img/car.png',
+				object:null
+			});
+			res.push({
+				type:FILE_TYPE_IMAGE,
+				path:'img/daolie1.png',
+				object:null
+			});
+			res.push({
+				type:FILE_TYPE_IMAGE,
+				path:'img/daolie2.png',
+				object:null
+			});
+			res.push({
+				type:FILE_TYPE_IMAGE,
+				path:'img/daolie3.png',
+				object:null
+			});
+			res.push({
+				type:FILE_TYPE_IMAGE,
+				path:'img/button1.png',
+				object:null
+			});
+			res.push({
+				type:FILE_TYPE_IMAGE,
+				path:'img/button1_click.png',
+				object:null
+			});
+			res.push({
+				type:FILE_TYPE_IMAGE,
+				path:'img/button2.png',
+				object:null
+			});
+			res.push({
+				type:FILE_TYPE_IMAGE,
+				path:'img/button2_click.png',
+				object:null
+			});
+			res.push({
+				type:FILE_TYPE_IMAGE,
+				path:'img/laohan.png',
+				object:null
+			});
+			
+			//res.push({
+			//	type:FILE_TYPE_MUSIC,
+			//	path:'music/background_music.mp3',
+			//	object:null				
+			//});
+			//res.push({
+			//	type:FILE_TYPE_SWF,
+			//	path:'flash/flash.swf',
+			//	object:null
+			//});
+			/*
+			for(var i = 1; i <= 49 ; i ++)
+			{
+				res.push({
+					type:FILE_TYPE_IMAGE,
+					path:"img/people/people00"+i+".png",
+					object:null
+				});
+				if(i < 10)
+				{
+					res[res.length - 1].path = "img/people/people000"+i+".png";
+				}
+			}
+			*/
+			
+			loads.load(res, load_completion);
+			scene_load.add(progress);
+			//scene_load.setBackgroundColor(255, 255, 255);
+		//	canvas.onmouseover = function(){
+		//		this.style.cursor = 'pointer';
+				//pointer:手型
+				//Crosshair                         :十字架
+		//	}
+			load_draw();
+		}
+		
+		var is_load = false;
+		function load_draw(){
+			scene_load.render();
+			progress.setProgress(loads.getLoadProgress());
+			//判断资源是否加载完毕(并且进度条动画也结束了)，如果都加载完毕了，则退出加载界面
+			if(is_load && progress.getParticesCount() == 0)
+			{
+				//用户已登录，开始进入游戏
+				if(is_login == true)
+				{
+					scene_load.clearAll();
+					scene_load.setBackgroundImage('img/background_image.png');
+					scene_load.exitScene(init_first_pass);//init
+				}
+				//未登录，弹出模态框让用户登录
+				else
+				{
+           			$("#login-modal").modal();
+				}
+			}
+			else
+				requestAnimationFrame(load_draw);
+		}
+		
+		//所有的资源赋值语句
+		//var angle = 0.0;
+		//var angle_v = 0.04;
+		//地图资源对象
+		var map = new FGAMES.Map();
+		var map_home = new FGAMES.Map();					//主要场景地图
+		//资源加载完毕函数
+		//在这里进行资源的赋值
+		function load_completion(){
+			progress.setProgress(100);
+			progress.setParticesProduces(false);			//不再产生粒子
+			is_load = true;
+			init_resources();
+			//销毁res所占用的内存空间
+			while(res.length)
+				res.pop();
+			
+			//初始化后面游戏所要用到的资源
+			init_all_res();
+		}
+		
+		function init_resources(){
+			//资源加载完毕，获取资源
+			map.addImage(res[9].object);
+			map.addImage(res[10].object);
+			map.addImage(res[12].object);
+			map.addImage(res[13].object)
+			map.addImage(res[21].object);
+			map.setMapData(map_data_home1);
+			
+			
+			fps = new FPS();
+		}
+		
+		//进入动画的界面
+		var enter_text;
+		var enter_text_prompt;
+		var enter_scene;
+		var text_show_end = false;
+		var exit_enter_scene = false;
+		function init_enter(){
+			enter_scene = new FGAMES.Scene();
+			enter_scene.setCanvas(canvas);
+			enter_scene.setBackgroundColor(10, 20, 10);
+			
+			enter_text = new FGAMES.Text("据中国野生动物保护协会称：xx犯罪集团为牟取\n"+
+										 "利益,在我国可可西里地区大肆扑杀藏羚羊，盗取\n"+
+										 "毛皮，使可可西里的藏羚羊数量锐减，严重的破\n"+
+										 "坏了当地的生态平衡\n");
+			enter_text.setFontSize(20);
+			enter_text.setTextColor(125, 200, 125);
+			enter_text.x = (canvas.width - enter_text.getWidth(context)) / 2; enter_text.y = 0;
+			enter_text.rotate_center_x = 0;
+			enter_text.IncreaseEnable(true);
+			//enter_text.AlphaEnable(true);
+			var timer = new FGAMES.Timer();
+			//添加定时器
+			timer.add({
+				time:20
+			});
+			enter_text.InstallTimer(timer);
+			enter_text.setTimerEnable(true);
+			
+			enter_text.setEndFunc(function(){
+				text_show_end = true;
+				//enter_text.resetText();
+				//enter_text.setTimerEnable(false);
+				//当文字全部显示完毕后，设置文字显示
+				enter_text_prompt.setVisible(true);
+			});
+			var timer2 = new FGAMES.Timer();
+			timer2.add({
+				time:10
+			});
+			
+			enter_text_prompt = new FGAMES.Text("请点击任意区域继续...");
+			enter_text_prompt.setFontSize(30);
+			enter_text_prompt.setTextColor(255, 255, 125);
+			enter_text_prompt.x = (canvas.width - enter_text_prompt.getWidth(context)) / 2;
+			enter_text_prompt.y = 400;
+			enter_text_prompt.AlphaEnable(true);
+			enter_text_prompt.InstallTimer(timer2);
+			enter_text_prompt.setTimerEnable(true);
+			enter_text_prompt.setVisible(false);
+			
+			enter_scene.add(enter_text);
+			enter_scene.add(enter_text_prompt);
+			
+			//enter_scene.big_mirror_enable = true;	//开启放大镜
+			enter_scene.setBigMirrorEnable(false);
+			
+			//enter_scene.renderBuffer();			//先渲染一片缓冲区
+			enter_scene.enterScene(draw_enter);	//开始进入动画
+			enter_scene.addMouseUp(function(){
+				//当文字显示完毕时，可以处理用户点击屏幕的事件
+				if(text_show_end == true)
+					exit_enter_scene = true;
+			});
+		}
+		
+		function draw_enter(){
+			enter_scene.render();
+			//文字显示完毕，退出当前场景，进入下一个场景
+			if(exit_enter_scene == true)
+			{
+				enter_scene.exitScene(init);
+			}
+			else
+				requestAnimationFrame(draw_enter);
+		}
+		
+		//主界面对象
+		var scene_home;
+		var text_home;
+		var button_start_game, button_help, button_register, button_login;
+		//图像文件
+		var home_people;
+		var home_earth;
+		var home_background;
+		var home_car;
+		var lead;
+		var home_is_loop = true;
+		function init(){	
+			scene_load.clearAll();			//清理所有资源
+			scene_load = null;
+			button_start_game = new FGAMES.Button("开始游戏");
+			button_help = new FGAMES.Button("帮助");
+			button_register = new FGAMES.Button("登录");
+			button_login = new FGAMES.Button("注册");
+			//设置监听器
+			button_start_game.addOnClickListener(function(e){
+				home_is_loop = false;
+				scene.exitScene(init_first_pass);
+			//	console.log("click");
+			});
+			button_start_game.addMouseDown(function(e){
+			//	console.log("x:"+e.x+" y:"+e.y+" down");
+			});
+			button_start_game.addMouseUp(function(e){
+			//	console.log("x:"+e.x+" y:"+e.y+" up");
+			});
+			button_start_game.addOnTouch(function(e){
+			//	console.log("x:"+e.x+" y:"+e.y+" ontouch");
+			});
+			//监听器设置
+			button_register.addOnIn(function(e){
+				button_register.setTextColor(255, 0, 0);
+			});
+			button_register.addOnOut(function(){
+				button_register.setTextColor(0, 0, 0);
+			});
+			button_login.addOnIn(function(e){
+				button_login.setTextColor(255, 0, 0);
+			});
+			button_login.addOnOut(function(e){
+				button_login.setTextColor(0, 0, 0);
+			});
+			button_register.background_is_exist = false;
+			button_login.background_is_exist = false;
+			
+			button_start_game.setPosition(240, 500);
+			button_help.setPosition(380, 500);
+			button_register.setPosition(900, 10);
+			button_login.setPosition(940, 10);
+			
+		//	button_exit_game.setDefaultBackgroundColor(255, 125, 0);
+		//	button_exit_game.setOnTouchBackgroundColor(0, 0, 255);
+			button_start_game.setTextSize(20);
+			button_start_game.setDefaultBackgroundImage("img/button_style.png");
+			button_start_game.setOnTouchBackgroundImage("img/button_style_click.png");
+			button_start_game.setTextColor(255, 0, 0);
+			//button_start_game.background_is_exist = false;				//设置不存在背景
+			
+			button_help.setTextSize(20);
+			button_help.setDefaultBackgroundImage("img/button_style.png");
+			button_help.setOnTouchBackgroundImage("img/button_style_click.png");
+			button_help.setTextColor(255, 0, 0);
+			
+			//canvas.style.background = "rgb(180, 200, 180)";
+			
+			scene = new FGAMES.Scene();
+			scene.setCanvas(canvas);
+			//scene.setBackgroundColor(200, 240, 200);
+			scene.setBackgroundColor(255, 255, 255);
+			
+			home_people = FGAMES.CreateCharacter();
+			var res_img = new Array();
+			for(var i = 01; i < 50; i ++)
+			{
+				res_img.push("img/people/people00"+i+".png");
+				if(i < 10)
+				{
+					res_img[res_img.length - 1] = "img/people/people000"+i+".png";
+				}
+			}
+			//home people
+			home_people.init(res_img);
+			home_people.setWH(154, 139);
+			home_people.setPosition(0, canvas.height-home_people.getHeight());
+			home_people.setUpdateTime(33);
+			
+			home_earth = FGAMES.CreateCharacter();
+			home_earth.init(["img/home_earth.png"]);
+			home_earth.setWH(800, 800);
+			home_earth.setRotatePosition(400, 400);
+			home_earth.setPosition(0, canvas.height - home_earth.getHeight() / 2);
+			
+			home_background = FGAMES.CreateCharacter();
+			home_background.init(["img/background_sky.png"]);
+			home_background.setWH(800, 600);
+			home_background.setPosition(0, 0);
+			
+			var y = 0;
+			for(var i = 0; i < 1000 ; i ++)
+			{
+				games[i] = FGAMES.CreateCharacter();
+				games[i].init(["img/Image1.png", "img/Image2.png", "img/Image3.png"]);
+				games[i].setWH(40, 40);
+				games[i].setRotatePosition(20, 20);
+				games[i].setUpdateTime(100);
+				games[i].setPosition(i * 40 - y * canvas.width, y * 40);
+				if(i * 40 - y * canvas.width >= canvas.width - 40)
+				{
+					y ++;
+				}
+				if(y * 40 >= canvas.height)
+					y = 0;
+			}
+			//car 
+//			home_car = new FGAMES.Character();
+//			home_car.setUpdateTime(500);
+//			home_car.init(['img/atlas.png']);
+//			home_car.addFrame({i:0, x:0, y:630, width:25, height:50});
+//			home_car.addFrame({i:0, x:0, y:680, width:25, height:50});
+//			home_car.setPosition(10, 200);
+//			home_car.setShowFrameRange(0, 1);
+			home_car = new Car();
+			home_car.init(['img/atlas.png']);
+			home_car.addFrame({i:0, x:0, y:630, width:25, height:50});
+			home_car.grid_width = 65; home_car.grid_height = 55;
+			home_car.setGridPosition(0, 9);
+			home_car.setDestionGridPosition(1, 9);
+			home_car.vx = 1;
+			home_car.destion_angle = Math.PI / 2;
+			home_car.setMapData(map_data_home);
+			//home_car.setWH(25, 20);
+			
+			home_car.map_data = map_data_home;
+			//map.add(home_car);					//将小车对象添加到地图对象里去
+			
+			
+			scene.add(map);
+			scene.add(home_people);
+			scene.add(button_start_game);
+			scene.add(button_help);
+			scene.add(button_register);
+			scene.add(button_login);
+			
+			scene.addKeyDown(function(e){
+				
+			});
+			
+			scene.setBigMirrorEnable(false);
+			
+			//scene.setBackgroundImage("img/home_background.png");
+			scene.renderBuffer();
+			scene.enterScene(draw);
+			
+		//	draw();
+		}
+		
+		function draw(){
+			for(var i = 0; i < games.length; i ++)
+			{
+				games[i].rotate(angle);
+				//games[i].x+= 1;
+				//games[i].y+= 1;
+			}
+			angle += angle_v;
+			if(angle >= Math.PI || angle < 0.0)
+				angle_v = - angle_v;
+			
+			//text_home.toRight();
+			home_earth.rotate(home_earth.getRotateAngle() + 0.001);
+			scene.render();
+			
+			//scene.getContext().drawImage(document.getElementById("my_images"), 0, 0)
+			if(home_is_loop == true)
+				requestAnimationFrame(draw);
+		}
+		</script>
+	</head>
+	<body style="background-color:#ccccff">
+		<div style="width:1024px;height:610px;margin:0 auto;cursor:default;position:relative;border:1px solid #00ff00">
+			<canvas id="my_canvas" width="1024" height="600" style="background:#101010;border:1px solid #5a0;">
+				
+			</canvas>
+			
+		<img id="my_images" src="img/logo.gif" style="display:none"></img>
+		<object id="flash_game_find" style="display:none;position:absolute;left:0px;right:0px;" type="application/x-shockwave-flash" data="flash/find.swf" width="800" height="500">
+  			<param name="WMODE" value="transparent">
+		</object>
+		<object id="flash_game_car" style="display:none;position:absolute;left:0px;top:0px;" type="application/x-shockwave-flash" data="flash/car.swf" width="600" height="375">
+			
+		</object>
+		<object id="flash_game_beng" style="display:none;position:absolute;" type="application/x-shockwave-flash" data="flash/beng.swf" width="800" height="500">
+			
+		</object>
+		<object id="flash_game_test" style="display:none;position:absolute;left:10px;top:10px;" type="application/x-shockwave-flash" data="flash/test.swf" width="300" height="200">
+			
+		</object>
+		</div>
+		<a id="my_a_id" href="#" data-toggle="modal" data-target="#login-modal">fff</a>
+		<!-- 登录 -->
+		<div class="modal fade" id="login-modal" tabindex="-1" role="dialog"
+			aria-labelledby="modal-label" aria-hidden="true">
+			<div class="modal-dialog" style="width:300px;">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">&times;</span><span class="sr-only">关闭</span>
+						</button>
+						<h4 class="modal-title" id="modal-label">登录</h4>
+					</div>
+					<div class="modal-body">
+						<form action="UserServlet?action=login" method="post" >
+							用户名：<input type="input" name="name" class="btn btn-default" ></input><br /><br />
+							密&nbsp;&nbsp;&nbsp;码：<input type="input" name="pwd" class="btn btn-default" ></input><br /><br  >
+							<input type="submit" class="btn btn-default" class="btn btn-default" value="登录" style="width:220px;"></input>
+						</form>
+					</div>
+					<div class="modal-footer">
+
+						<button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="modal" data-target="#register-modal">
+							注册
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--注册-->
+		<div class="modal fade" id="register-modal" tabindex="-1" role="dialog"
+			aria-labelledby="modal-label" aria-hidden="true">
+			<div class="modal-dialog" style="width:300px;">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">&times;</span><span class="sr-only">关闭</span>
+						</button>
+						<h4 class="modal-title" id="modal-label">注册</h4>
+					</div>
+					<div class="modal-body">
+						<form action="UserServlet?action=reg" method="post">
+							用&nbsp;户&nbsp;名：<input type="input" name="name" class="btn btn-default" ></input><br /><br />
+							密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码：<input type="input" name="pwd" class="btn btn-default" ></input><br /><br  >
+							确认密码：<input type="input" name="confirm_pwd"class="btn btn btn-default"></input><br /><br />
+							<input type="submit" class="btn btn-default" class="btn btn-default" value="注册" style="width:220px"></input>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="modal" data-target="#login-modal">
+							注册
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script language="javascript">
+			var s = document.getElementById("my_a_id");
+			//s.submit();
+			//alert(s);
+		</script>
+	</body>
+	<script src="js/jquery-1.11.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+</html>
