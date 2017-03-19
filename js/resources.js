@@ -32,10 +32,20 @@ var system_dialog;
 var scoring;
 var menu_button = new Array();
 var menu;
+var task;
 //音乐资源
 var music_hint, music_backgorund;
 function init_all_res(){
 	myajax = new FAjax();
+	
+	task = new Task();
+	task.w = 300;
+	task.h = 200;
+	task.x = (canvas.width - task.w) / 2;
+	task.y = (canvas.height - task.h) / 2;
+	task.init();
+	task.visible = false;
+	
 	menu = new Menu();
 	menu.SCENE_WIDTH = canvas.width;
 	menu.SCENE_HEIGHT = canvas.height;
@@ -50,6 +60,8 @@ function init_all_res(){
 	menu_button[0].setWidth(150);
 	menu_button[0].setHeight(50);
 	menu_button[0].setPosition(0, canvas.height - menu_button[0].getHeight());
+	menu_button[0].setDefaultBackgroundImage('img/button1.png');
+	menu_button[0].setOnTouchBackgroundImage('img/button1_click.png');
 	menu_button[0].addOnClickListener(function(){
 		menu.visible = !menu.visible;
 	})
@@ -58,8 +70,18 @@ function init_all_res(){
 	menu_button[1].setHeight(50);
 	menu_button[1].setPosition(160, canvas.height - menu_button[1].getHeight());
 	menu_button[1].addOnClickListener(function(){
-		
 	})
+	menu_button[1].setDefaultBackgroundImage('img/button1.png');
+	menu_button[1].setOnTouchBackgroundImage('img/button1_click.png');
+	menu_button[1].addOnClickListener(function(){
+		
+		task.text = FRes.String.help;
+		task.visible = true;
+	});
+	
+	//系统对话框
+	system_dialog = new DialogText(null);
+	system_dialog.setWindow({w:canvas.width, h:canvas.height});
 	/*
 	var tt = "[\n";
 	for(var i = 0; i < map_data_real_time_game.length; i ++)
@@ -83,6 +105,8 @@ function init_all_res(){
 	map_data_anduo = FTools.SetMapDataEx(map_flag_anduo, map_show_anduo, map_res_anduo);
 	map_data_drugstore = FTools.SetMapDataEx(map_flag_drugstore, map_show_drugstore, map_res_drugstore);
 	map_data_kekexili = FTools.SetMapDataEx(map_flag_kekexili, map_show_kekexili, map_res_kekexili);
+	map_data_animal_protect_house = FTools.SetMapDataEx(map_flag_anima_protect_house, map_show_animal_protect_house, map_res_animal_protect_house);
+	console.log(map_data_animal_protect_house);
 	//FTools.addMapFlag(map_data_anduo_road, map_flag_anduo_road);
 	
 	//小地图初始化
@@ -252,7 +276,8 @@ function init_all_res(){
 	houses[4].addFrame({i:0, x:0, y:0, width:520, height:380});
 	houses[4].setWH(200, 160);
 	houses[4].center_x = 0; houses[4].center_y = 160;
-	houses[4].setPosition(980, 490);
+	houses[4].setPosition(980, 495);
+	houses[4].name = "肉贩市场";
 	
 	houses[5] = new FGAMES.Character();
 	houses[5].init(['img/houses.png']);
@@ -269,6 +294,7 @@ function init_all_res(){
 	houses[6].setWH(300, 180);
 	houses[6].center_x = 0; houses[6].center_y = 180;
 	houses[6].setPosition(800, 715);
+	
 	
 	houses_anduo[0] = new FGAMES.Character();
 	houses_anduo[0].init(['img/houses.png']);
@@ -625,6 +651,8 @@ function init_all_res(){
 		npcs_kekexili[i].setUpdateTime(200);
 		npcs_kekexili[i].setPosition(600+60*i, 200);
 	}
+	npcs_kekexili[0].setShowFrameRange(6, 6);
+	npcs_kekexili[2].setShowFrameRange(9, 9);
 	
 	
 	//初始化屠夫房间的墙壁

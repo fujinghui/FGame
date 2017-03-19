@@ -51,7 +51,7 @@ function init_first_pass(){
 	//背包对象
 	knap = new Knapsack();
 	knap.visible = false;
-	map.show_table_line = false;
+	map.show_table_line = true;
 	scene_first_pass = new FGAMES.Scene();
 	/*
 	 * 默认为传统的动画模式，此处设置为新的动画模式(之后的游戏场景切换均采用新的(2.0?)动画模式)，
@@ -69,13 +69,14 @@ function init_first_pass(){
 	//scene_first_pass.addKeyDown(FirstKeyDown);			//添加键盘按下处理
 	//scene_first_pass.addKeyUp(FirstKeyUp);				//添加键盘松开处理
 	scene_first_pass.addMouseDown(FirstMouseDown);
-//	scene_first_pass.renderBuffer();					//现将图像渲染到缓冲区中
+//	scene_first_pass.renderBuffer();						//现将图像渲染到缓冲区中
 //	scene_first_pass.enterScene(first_pass_draw);
 	for(var i = 0; i < menu_button.length; i ++)
 	{
 		scene_first_pass.add(menu_button[i]);
 	}
 	scene_first_pass.add(menu);
+	scene_first_pass.add(task);
 	//scene_first_pass.removeObject(menu);
 	//设置菜单不显示
 	menu.visible = false;
@@ -219,9 +220,9 @@ function npc_dialog_init(){
 	});
 	
 	//系统对话框
-	system_dialog = new DialogText(null);
-	system_dialog.setWindow({w:canvas.width, h:canvas.height});
-	system_dialog.setText(FRes.String.dialog.dialog_1);
+//	system_dialog = new DialogText(null);
+//	system_dialog.setWindow({w:canvas.width, h:canvas.height});
+//	system_dialog.setText(FRes.String.dialog.dialog_1);
 	//默认加载一个系统对话框
 	scene_first_pass.add(system_dialog);
 }
@@ -573,8 +574,8 @@ function anduo_map(){
 		npcs_anduo[0].dialog_text.setCallFunc(function(){
 			game_progress = 8;
 			npcs_anduo[0].dialog_text.setWindow({w:canvas.width, h:canvas.height});
-			npcs_anduo[0].setText(FRes.String.dialog2.dialog_14);
-			npcs_anduo[0].setCallFunc(function(){});
+			npcs_anduo[0].dialog_text.setText(FRes.String.dialog2.dialog_14);
+			npcs_anduo[0].dialog_text.setCallFunc(function(){});
 		});
 	}
 	else if(game_progress == 7)
@@ -584,8 +585,8 @@ function anduo_map(){
 		npcs_anduo[0].dialog_text.setCallFunc(function(){
 			game_progress = 8;
 			npcs_anduo[0].dialog_text.setWindow({w:canvas.width, h:canvas.height});
-			npcs_anduo[0].setText(FRes.String.dialog2.dialog_14);
-			npcs_anduo[0].setCallFunc(function(){});
+			npcs_anduo[0].dialog_text.setText(FRes.String.dialog2.dialog_14);
+			npcs_anduo[0].dialog_text.setCallFunc(function(){});
 		});
 	}
 	else
@@ -621,7 +622,7 @@ function anduo_map(){
 			scene_first_pass.exitScene(function(){
 				map.x = 0;
 				map.y = 0;
-				lead_first_pass.setPosition(0, 200);
+				lead_first_pass.setPosition(0, 280);
 				kekexili_map();
 			});
 		}

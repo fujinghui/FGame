@@ -228,14 +228,101 @@ function Car(){
 //任务对象
 function Task(){
 	this.task_progress = 0;
-	thsi.task_accept = false;
+	this.task_accept = false;
 	this.task_count = 3;			//任务总数量
+	
 	//任务列表：描述以及是否完成
 	this.task_list = [
-	{describe:"找到中国动物保护协会的工作人员，并与其交谈。", completion:false},
-	{describe:"根据与大汉的对话，去最近的屠宰场看看吧！", completion:false},
-	{describe:"根据屠夫的对话，找找线索吧！", completion:false}
+	
+	{describe:"先去珍稀动物保护协会看看吧！", completion:false},					//0
+	{describe:"再去找珍稀动物保护协会的长官完成他所说的检验", completion:false},		//1
+	{describe:"离开珍稀动物保护协会", completion:false},						//2
+	{describe:"与周围的npc对话，看看能不能得到什么线索", completion:false},			//3
+	{describe:"前往肉贩市场，找寻线索", completion:false},						//4
+	{describe:"前往北边的安多县（注意：在当前地图的上方）", completion:false},		//5
+	{describe:"前往安多县", completion:false},								//6
+	{describe:"去和药店门口的医生对话，看看能不能得到什么有用的线索", completion:false},	//7
+	{describe:"前往可可西里（注意：在当前地图的右上方）", completion:false},			//8
+	{describe:"那边有一群可疑的人，去看看！", completion:false},					//9
+	{describe:"那边有一群可以的人，去看看", completion:false},									//10
+	{describe:"去南边的灌木丛解救被困住的动物", completion:false},						//11
+	{describe:"恭喜您，已经通关了！", completion:false}						//12
 	];
+	
+	this.x = 0;
+	this.y = 0;
+	this.w = 0;
+	this.h = 0;
+	this.visible = false;
+	this.image_background = null;
+	this.fontsize = 25;
+	this.button = new Array();
+	this.text = null;
+	this.init = function(){
+		this.button[0] = new FGAMES.Button("确定");
+		this.button[0].setWidth(this.w-20);
+		this.button[0].setHeight(40);
+		this.button[0].setPosition(this.x + (this.w-this.button[0].getWidth())/2, this.y + this.h-this.button[0].getHeight());
+		this.button[0].setDefaultBackgroundImage("img/button1.png");
+		this.button[0].setOnTouchBackgroundImage("img/button1_click.png");
+		
+		this.button[0].addOnClickListener(function(){
+			task.visible = false;
+			task.text = null;
+		});
+		
+		this.image_background = new Image();
+		this.image_background.src = "img/dialog_text_background.png";
+	}
+	this.Constructor = function(){
+		return this.button;
+	//	return [this.button[1],this.button[2],this.button[3]];
+	}
+	//对象销毁，并且返回要从场景里删除的对象
+	this.Destructor = function(){
+		return this.button;
+	}
+	
+	this.draw = function(context){
+		if(this.visible == true)
+		{
+			context.drawImage(this.image_background,
+				0, 0, this.image_background.width, this.image_background.height,
+				this.x, this.y, this.w, this.h);
+			context.fillStyle = "rgb(200, 200, 100)";
+			context.font = "italic "+this.fontsize+"px arial,sans-serif";
+			var t;
+			if(this.text == null)
+				t = this.task_list[this.task_progress].describe;
+			else
+				t = this.text;
+			//一行可以容纳的字
+			var line_count = Math.round(this.w/this.fontsize-1.0);
+			var yy = 0;
+			while(t.length > line_count)
+			{
+				var tt = t.substr(0, line_count);
+				context.fillText(tt, this.x, this.y+yy);
+				t = t.substr(line_count, t.length);
+				yy += this.fontsize;
+			}
+			if(t.length > 0)
+			{
+				context.fillText(t, this.x, this.y + yy);
+			}
+			
+			//设置按钮可见
+			for(var i = 0; i < this.button.length; i ++)
+			{
+				this.button[i].visible = true;
+			}
+		}
+		else
+		{
+			for(var i = 0; i < this.button.length; i ++)
+				this.button[i].visible = false;
+		}
+	}
 	this.TaskIsCompletion = function(i){
 		return this.task_list[i].completion;
 	}
@@ -283,14 +370,16 @@ function DialogText(obj){
 	this.text_before = null;
 	this.text_after = null;
 	this.text_index;
-	this.fontsize = 50;			
+	this.fontsize = 40;			
 	this.character_text = "";
 	this.visible = false;
 	this.show_count = 1;			//对话框显示次数
 	this.current_show_index = 0;	//当前显示的是第几次
 	this.call_function = null;
+	
+	this.image_background = null;
 	this.setDialogShowCount = function(count){
-		this.shwo_count = count;
+		this.show_count = count;
 	}
 	this.setCallFunc = function(call){
 		this.call_function = call;
@@ -309,7 +398,12 @@ function DialogText(obj){
 		this.w = this.SCREEN_WIDTH * 2 / 3;				//文字对话框的宽度是窗口的2/3
 		this.h = this.SCREEN_HEIGHT / 4;				//文字对话框的高度是窗口的1/4
 		this.x = (this.SCREEN_WIDTH - this.w)/2			
-		this.y = (this.SCREEN_HEIGHT - this.h - 10);		
+		this.y = (this.SCREEN_HEIGHT - this.h - 10) - 55;		
+		if(this.image_background == null)
+		{
+			this.image_background = new Image();
+			this.image_background.src = "img/dialog_text_background.png";
+		}
 	}
 	this.getType = function(){
 		return 'Button';
@@ -328,7 +422,7 @@ function DialogText(obj){
 			//将过长的文字分解掉
 			var tt = new Array();
 			//计算一页对话框能够显示多少文字
-			var acount = Math.round(this.w/this.fontsize-0.5)*Math.round(this.h/this.fontsize-0.5);
+			var acount = Math.round(this.w/this.fontsize-1.0)*Math.round(this.h/this.fontsize-1.0);
 			for(var i = 0; i < t.length; i ++)
 			{
 				var temp = t[i].context;
@@ -434,22 +528,59 @@ function DialogText(obj){
 		}
 		
 	}
-	
+	this.drawRotateRect = function(context, x, y, w, h, r){
+		context.fillRect(x + r, y + r, w-2*r,h-2*r);
+		//左右两边的填补矩形
+		context.fillRect(x, y+r, r, h-r-r);
+		context.fillRect(x+w-r, y+r, r,h-r-r);
+		//上下两边的填补矩形
+		context.fillRect(x+r, y, w-r-r, r);
+		context.fillRect(x+r, y+h-r, w-r-r,r);
+		context.beginPath();
+		context.fillStyle = "rgba(200, 150, 40, 0.5)";
+		//左上
+		context.moveTo(x+r, y+r);
+		context.arc(x+r,y+r,r,Math.PI, Math.PI+Math.PI/2, false);
+		//左下
+		context.moveTo(x+r,y+h-r);
+		context.arc(x+r,y+h-r,r,Math.PI/2, Math.PI, false);
+		//右上
+		context.moveTo(x+w-r,y+r);
+		context.arc(x+w-r,y+r,r,Math.PI+Math.PI/2, Math.PI*2, false);
+		//右下
+		context.moveTo(x+w-r,y+h-r);
+		context.arc(x+w-r,y+h-r, r,0, Math.PI/2, false);
+		
+		context.fill();
+	}
 	this.draw = function(context){
 		if(this.visible == false || this.text == null)
 			return;
 		context.textBaseline = "top";
 		context.fillStyle = "rgba(50, 125, 10, 0.5)";
-		
+		if(this.image_background)
+			context.drawImage(this.image_background,
+				0, 0, this.image_background.width, this.image_background.height,
+				this.x, this.y - this.h / 2 - 10, this.w / 3, this.h / 2);
+		else
 		context.fillRect(this.x, this.y - this.h / 2 - 10, this.w / 3, this.h / 2);
-		context.fillRect(this.x, this.y, this.w, this.h);
+		if(this.image_background)
+			context.drawImage(this.image_background,
+				0, 0, this.image_background.width, this.image_background.height,
+				this.x, this.y, this.w, this.h);
+		else
+			context.fillRect(this.x, this.y, this.w, this.h);
+		//this.drawRotateRect(context, this.x, this.y, this.w, this.h, 30);
 		context.fillStyle = "rgb(255, 255, 255)";
 		
-		//context.font = (this.fontsize+10) + "px Arial";
-		context.font = (this.fontsize+10)+"px Courier New";
+		context.font = (this.fontsize+10) + "px Arial";
+		//context.font = (this.fontsize+10)+"px Courier New";
+		//context.font = "italic bold 40px arial,sans-serif";
 		context.fillText(this.character_text, this.x, this.y - this.h / 2 - 10);
 		
-		context.font = this.fontsize + "px Arial";
+		context.font = "bold "+this.fontsize+"px arial,sans-serif";
+		context.font = "italic "+this.fontsize+"px arial,sans-serif";
+		//context.font = this.fontsize + "px Arial";
 		if(this.text.length * this.fontsize > this.w)
 		{
 			var count = Math.round(this.text.length * this.fontsize / (this.w - this.fontsize) + 0.5);
@@ -662,6 +793,7 @@ function Npc(){
 		}
 		this.pframe = this.frame;
 		this.frame = function(){
+			
 			if(this.visible == false)
 				return;
 			this.pframe();
@@ -1168,6 +1300,7 @@ function Scoring(width,height){
 		context.fillText(FRes.String.scoring2+this.save_animal_count, 520, 10+25);
 	}
 }
+
 //菜单系统
 function Menu(){
 	this.x = 0;
@@ -1222,8 +1355,14 @@ function Menu(){
 	//	this.button[2].setPosition(this.x+this.button[1].getWidth(), this.y);
 	//	this.button[3].setPosition(this.x+this.button[1].getWidth()+this.button[2].getWidth(), this.y);
 		
-		this.button[1].setDefaultBackgroundColor(255,255,255);
-		this.button[1].setOnTouchBackgroundColor(255,255,0);
+		
+		this.button[0].addOnClickListener(function(){
+			menu.visible = false;
+			task.visible = true;
+			task.task_progress = game_progress;
+		});
+	//	this.button[1].setDefaultBackgroundColor(255,255,255);
+	//	this.button[1].setOnTouchBackgroundColor(255,255,0);
 		
 		this.button[1].addOnClickListener(function(e){
 		//	console.log(menu.button[1].enable_music);

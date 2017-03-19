@@ -565,7 +565,7 @@ function Fgame(){
 					//	this.render_lead.y >= this.render_list_npc[i].y &&
 					//	this.render_lead.y <= this.render_list_npc[i].y + this.render_list_npc[i].dialog_range.h
 					//)
-					if(this.render_list_npc[i].is_show_bubble == true 
+					if(this.render_list_npc[i].visible==true&&this.render_list_npc[i].is_show_bubble == true 
 					&& this.render_list_npc[i].dialog_text.all_text != null)
 					{
 						
@@ -674,7 +674,7 @@ function Fgame(){
 			//调用下一层按键处理函数
 			for(var i = 0; i < this.render_list.length; i ++)
 			{
-				if(this.render_list[i].onkeydown)
+				if(this.render_list[i].visible && this.render_list[i].visible == true && this.render_list[i].onkeydown)
 				{
 					this.render_list[i].onkeydown(e);	
 				}
@@ -1709,9 +1709,10 @@ function Fgame(){
 		}
 		this.drawText = function(context){
 			context.fillStyle = button_text_color;
+			context.textBaseline = "top";
 			context.font = text_size+"px Arial";
 			//console.log(button_text)
-			context.fillText(button_text, this.x + (this.w - context.measureText(button_text).width) / 2, this.y + text_size + (this.h - text_size) / 2);
+			context.fillText(button_text, this.x + (this.w - context.measureText(button_text).width) / 2, this.y + (this.h - text_size) / 2);
 			context.fill();
 		}
 		this.getWidth = function(){
@@ -2174,6 +2175,8 @@ function Fgame(){
 		
 		//键盘事件处理
 		function sceneKeyDown(e){
+			if(game_pause == true)
+				return;
 			//-------------
 			for(var i = 0; i < render_list.length; i ++)
 			{

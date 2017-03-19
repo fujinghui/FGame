@@ -6,6 +6,7 @@ FRes.String = {
 	staff:"工作人员",
 	ephor:"长官",
 	laohan:"老汉",
+	help:"上下左右控制主角行走，在最后一个关卡‘A’键能够发射子弹，当走到传送点时，按下空格可进行传送！",
 	
 	scoring1:"已杀死的盗猎分子：",
 	scoring2:"已解救的动物数量：",
@@ -120,13 +121,7 @@ FRes.String = {
 		],
 		dialog_end:
 		[
-		{name:"系统",context:"恭喜您解救完了所有动物！快去向"},
-		{name:"小F",context:""},
-		{name:"系统",context:"在玩这个游戏的过程中你所学到的知识就是你说奖励！"},
-		{name:"小F",context:"........."},
-		{name:"小F",context:"我能骂你吗？"},
-		{name:"系统",context:"你随便。。。哈哈哈哈哈！"},
-		{name:"小F",context:"去死吧你！！！"}
+		{name:"系统",context:"恭喜您解救完了所有动物！"}
 		],
 		
 	},

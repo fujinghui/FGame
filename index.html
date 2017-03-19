@@ -54,7 +54,7 @@
 			 * 11:第三个游戏闯关成功
 			 * 12:第四个游戏闯关成功
 			 */
-			game_progress = 0;
+			game_progress = 5;
 			//home_scene_enter();
 			//real_time_game_map();
 			map.x = 0;
@@ -417,6 +417,12 @@
 				path:'img/laohan.png',
 				object:null
 			});
+			res.push({
+				type:FILE_TYPE_IMAGE,
+				path:'img/dialog_text_background.png',
+				object:null
+			});
+			
 			
 			//res.push({
 			//	type:FILE_TYPE_MUSIC,
@@ -781,10 +787,10 @@
   			<param name="WMODE" value="transparent">
 		</object>
 		<object id="flash_game_car" style="display:none;position:absolute;left:0px;top:0px;" type="application/x-shockwave-flash" data="flash/car.swf" width="600" height="375">
-			
+			<param name="WMODE" value="transparent">
 		</object>
 		<object id="flash_game_beng" style="display:none;position:absolute;" type="application/x-shockwave-flash" data="flash/beng.swf" width="800" height="500">
-			
+			<param name="WMODE" value="transparent">
 		</object>
 		<object id="flash_game_test" style="display:none;position:absolute;left:10px;top:10px;" type="application/x-shockwave-flash" data="flash/test.swf" width="300" height="200">
 			

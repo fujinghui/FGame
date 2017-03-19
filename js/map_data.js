@@ -45,7 +45,7 @@ var map_data_enter = [
 	[{i:-1, color:"rgb(34,55,35)"}, {i:-1, color:"rgb(34,55,35)"}, {i:-1, color:"rgb(34,55,35)"}, {i:-1, color:"rgb(34,55,35)"}, {i:-1, color:"rgb(34,55,35)"}, {i:-1, color:"rgb(34,55,35)"}, {i:-1, color:"rgb(34,55,35)"}, {i:-1, color:"rgb(34,55,35)"}, {i:-1, color:"rgb(34,55,35)"}, {i:-1, color:"rgb(34,55,35)"}, {i:-1, color:"rgb(34,55,35)"}, {i:-1, color:"rgb(34,55,35)"}, {i:-1, color:"rgb(34,55,35)"}, {i:-1, color:"rgb(34,55,35)"}, {i:-1, color:"rgb(34,55,35)"}, {i:-1, color:"rgb(34,55,35)"}],
 	[{i:-1, color:"rgb(34,55,35)"}, {i:-1, color:"rgb(34,55,35)"}, {i:-1, color:"rgb(34,55,35)"}, {i:-1, color:"rgb(34,55,35)"}, {i:-1, color:"rgb(34,55,35)"}, {i:-1, color:"rgb(34,55,35)"}, {i:-1, color:"rgb(34,55,35)"}, {i:-1, color:"rgb(34,55,35)"}, {i:-1, color:"rgb(34,55,35)"}, {i:-1, color:"rgb(34,55,35)"}, {i:-1, color:"rgb(34,55,35)"}, {i:-1, color:"rgb(34,55,35)"}, {i:-1, color:"rgb(34,55,35)"}, {i:-1, color:"rgb(34,55,35)"}, {i:-1, color:"rgb(34,55,35)"}, {i:-1, color:"rgb(34,55,35)"}]
 ];
-var map_data_animal_protect_house = [
+var map_data_animal_protect_house = null;/*[
 	[{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0}],
 	[{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0}],
 	[{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0}],
@@ -58,6 +58,37 @@ var map_data_animal_protect_house = [
 	[{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0}],
 	[{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0}],
 	[{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0},{x:0,y:0,width:100,height:120, i:4, f:0}],
+];*/
+var map_res_animal_protect_house = [
+	{x:0,y:0,width:100,height:120, i:4, f:0}
+];
+var map_show_animal_protect_house = [
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+];
+var map_flag_anima_protect_house = [
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 ];
 var map_data_kekexili = [
 	[{x:10,y:0,width:100,height:120, i:4, f:0},{x:10,y:0,width:100,height:120, i:4, f:0},{x:10,y:0,width:100,height:120, i:4, f:0},{x:10,y:0,width:100,height:120, i:4, f:0},{x:10,y:0,width:100,height:120, i:4, f:0},{x:10,y:0,width:100,height:120, i:4, f:0},{x:10,y:0,width:100,height:120, i:4, f:0},{x:10,y:0,width:100,height:120, i:4, f:0},{x:10,y:0,width:100,height:120, i:4, f:0},{x:10,y:0,width:100,height:120, i:4, f:0},{x:10,y:0,width:100,height:120, i:4, f:0},{x:10,y:0,width:100,height:120, i:4, f:0},{x:10,y:0,width:100,height:120, i:4, f:0},{x:10,y:0,width:100,height:120, i:4, f:0},{x:10,y:0,width:100,height:120, i:4, f:0},{x:10,y:0,width:100,height:120, i:4, f:0},{x:10,y:0,width:100,height:120, i:4, f:0},{x:10,y:0,width:100,height:120, i:4, f:0},{x:10,y:0,width:100,height:120, i:4, f:0},{x:10,y:0,width:100,height:120, i:4, f:0},{x:10,y:0,width:100,height:120, i:4, f:0},{x:10,y:0,width:100,height:120, i:4, f:0},{x:10,y:0,width:100,height:120, i:4, f:0},{x:10,y:0,width:100,height:120, i:4, f:0},{x:10,y:0,width:100,height:120, i:4, f:0},{x:10,y:0,width:100,height:120, i:4, f:0},{x:10,y:0,width:100,height:120, i:4, f:0},{x:10,y:0,width:100,height:120, i:4, f:0},{x:10,y:0,width:100,height:120, i:4, f:0},{x:10,y:0,width:100,height:120, i:4, f:0},{x:10,y:0,width:100,height:120, i:4, f:0},{x:10,y:0,width:100,height:120, i:4, f:0},{x:10,y:0,width:100,height:120, i:4, f:0},{x:10,y:0,width:100,height:120, i:4, f:0},{x:10,y:0,width:100,height:120, i:4, f:0},{x:10,y:0,width:100,height:120, i:4, f:0},{x:10,y:0,width:100,height:120, i:4, f:0}],
