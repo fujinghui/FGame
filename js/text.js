@@ -121,7 +121,8 @@ FRes.String = {
 		],
 		dialog_end:
 		[
-		{name:"系统",context:"恭喜您解救完了所有动物！"}
+		{name:"ff", context:"-----------"},
+		{name:"系统", context:"恭喜您成功的解救了所有动物！"}
 		],
 		
 	},

@@ -50,9 +50,9 @@ function init_all_res(){
 	menu.SCENE_WIDTH = canvas.width;
 	menu.SCENE_HEIGHT = canvas.height;
 	menu.MENU_WIDTH = 200;
-	menu.MENU_HEIGHT = 300;
+	menu.MENU_HEIGHT = 380;
 	menu.x = (menu.SCENE_WIDTH-menu.MENU_WIDTH)/2;
-	menu.y = (menu.SCENE_HEIGHT-menu.MENU_WIDTH)/2;
+	menu.y = (menu.SCENE_HEIGHT-menu.MENU_HEIGHT)/2;
 	menu.init();
 	menu.visible = false;
 	//底下的菜单栏
@@ -246,14 +246,14 @@ function init_all_res(){
 	houses = new Array();
 	houses[0] = new FGAMES.Character();
 	houses[0].init(['img/houses.png']);
-	houses[0].addFrame({i:0, x:0, y:0, width:520, height:400});
+	houses[0].addFrame({i:0, x:0, y:0, width:520, height:380});
 	houses[0].setWH(200, 160);
 	houses[0].center_x = 0; houses[0].center_y = 160;
 	houses[0].setPosition(0, 160);
 	
 	houses[1] = new FGAMES.Character();
 	houses[1].init(['img/houses.png']);
-	houses[1].addFrame({i:0, x:0, y:0, width:520, height:400});
+	houses[1].addFrame({i:0, x:0, y:0, width:520, height:380});
 	houses[1].setWH(200, 160);
 	houses[1].center_x = 0; houses[1].center_y = 160;
 	houses[1].setPosition(260, 160);
@@ -466,8 +466,8 @@ function init_all_res(){
 		npcs_main[i].setUpdateTime(200);
 	}
 	
-	npcs_main[0].setPosition(140, 500);			//
-	npcs_main[1].setPosition(1200, 220);
+	//npcs_main[0].setPosition(140, 500);			//
+	//npcs_main[1].setPosition(1200, 220);
 	//npcs_main[2].setPosition(0, 0);			//长官
 	//npcs_main[3].setPosition(650, 400);			//老汉
 	//老汉npc设置
@@ -592,10 +592,19 @@ function init_all_res(){
 	for(var i = 0; i < 3; i ++)
 	{
 		npcs_animals_save[i] = new Npc();
-		npcs_animals_save[i].init(["other_res/test_character.png"]);
-		npcs_animals_save[i].addFrame({i:0, x:0, y:0, width:78, height:80});
-		npcs_animals_save[i].addFrame({i:0, x:0, y:80, width:78, height:70});
-		npcs_animals_save[i].setShowFrameRange(0, 1);
+		npcs_animals_save[i].init(["img/animals_save.png"]);
+		for(var vi = 0; vi < 2; vi ++)
+		{
+			for(var hi = 0; hi < 5; hi ++)
+			{
+				npcs_animals_save[i].addFrame({i:0, x:hi*100, y:vi*100, width:100, height:100});
+			}
+		}
+		for(var hi = 0; hi < 3; hi ++)
+			npcs_animals_save[i].addFrame({i:0, x:hi*100, y:2*100, width:100, height:100});
+	//	npcs_animals_save[i].addFrame({i:0, x:0, y:0, width:78, height:80});
+	//	npcs_animals_save[i].addFrame({i:0, x:0, y:80, width:78, height:70});
+		npcs_animals_save[i].setShowFrameRange(0, 12);
 		npcs_animals_save[i].setWH(78, 80);
 		npcs_animals_save[i].center_x = 0; npcs_animals_save[i].center_y = 80;
 		npcs_animals_save[i].setUpdateTime(200);
@@ -603,9 +612,9 @@ function init_all_res(){
 		npcs_animals_save[i].dialog_text.setWindow({w:canvas.width, h:canvas.height});
 		npcs_animals_save[i].dialog_text.setText(FRes.String.dialog.dialog_real_time_animal);
 	}
-	npcs_animals_save[0].setPosition(1*65,1*55);
-	npcs_animals_save[1].setPosition(1*65,21*55);
-	npcs_animals_save[2].setPosition(15*65,18*55);
+	npcs_animals_save[0].setPosition(1*65-20,1*55+20);
+	npcs_animals_save[1].setPosition(1*65-20,21*55+20);
+	npcs_animals_save[2].setPosition(15*65-20,18*55+20);
 	//药店里的npc
 	for(var i = 0; i < 1; i ++)
 	{

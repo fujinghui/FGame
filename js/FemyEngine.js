@@ -1381,7 +1381,6 @@ function Fgame(){
 					v_alpha = v_alpha_value;
 				}
 			}
-			
 		}
 		var timer_call_back_end_fun = function(){
 			//show_index = 0;
@@ -2557,11 +2556,12 @@ function Fgame(){
 				return true;
 			}
 		}
-		var x_count_3 = 20, y_count_3 = 20;
+		var x_count_3 = 10, y_count_3 = 10;
 		var vx_3 = 0, vy_3 = 0;
 		var max_x3 = 0, max_y3 = 0;
 		var current_x_3 = 0, current_y_3 = 0;
 		var canvas3, context3;
+		
 		function enterAnimationInit3(){
 			canvas3 = document.createElement("canvas");
 			canvas3.width = canvas_buffer.width; canvas3.height = canvas_buffer.height;
@@ -2711,6 +2711,7 @@ function Fgame(){
 			else
 				return false;
 		}
+		var exit_count_3 = 0;
 		function exitAnimationInit3(){
 			canvas3 = document.createElement("canvas");
 			canvas3.width = canvas_buffer.width; canvas3.height = canvas_buffer.height;
@@ -2722,6 +2723,7 @@ function Fgame(){
 			current_x_3 = 0; current_y_3 = 0;
 			vx_3 = max_x3 / 50;
 			vy_3 = max_y3 / 50;
+			exit_count_3 = 0;
 		}
 		function exitAnimationDraw3(){
 			context_buffer.fillStyle = animation_background_color;
@@ -2740,11 +2742,18 @@ function Fgame(){
 				}
 			}
 			context.drawImage(canvas_buffer, 0, 0);
-			current_x_3 += vx_3;
-			current_y_3 += vy_3;
+			if(current_x_3 < max_x3 && current_y_3 < max_y3)
+			{
+				current_x_3 += vx_3;
+				current_y_3 += vy_3;
+			}
+			else
+			{
+				exit_count_3 ++;
+			}
 		}
 		function exitAnimationIsCompletion3(){
-			if(current_x_3 >= max_x3 && current_y_3 >= max_y3)
+			if(current_x_3 >= max_x3 && current_y_3 >= max_y3 && exit_count_3 >= 30)
 				return true;
 			return false;
 		}

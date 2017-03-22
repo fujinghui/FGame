@@ -263,12 +263,10 @@ function home_scene_enter(){
 function home_scene_map(){
 	current_scene  ="home_scene_map()";
 	place_name = "拉萨市";
+	
 	map.clear();
 	map.clearTransmitPoint();
 	map.setMapData(map_data_home1);
-	
-	map.add(npcs_main[0]);
-	map.add(npcs_main[1]);
 	map.add(npcs_main[3]);
 	//添加树木
 	for(var i = 0; i < trees.length; i += 1)
@@ -334,9 +332,12 @@ function home_scene_map(){
 	});
 	map.setWidth(65);
 	map.setHeight(55);
-	
+	if(game_progress == 12)			//游戏通关
+	{
+		
+	}
 	scene_first_pass.enterScene(function(){
-	
+		
 	});
 }
 //中国野生动物保护协会的房内地图资源

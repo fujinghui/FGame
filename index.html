@@ -1,3 +1,6 @@
+<%@ page language="java" import="java.util.*" contentType="text/html; charset=utf-8"%>
+<%@ page import="entity.User" %>
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -55,7 +58,6 @@
 			 * 11:第三个游戏闯关成功
 			 * 12:第四个游戏闯关成功
 			 */
-			
 			game_progress = 11;
 			//根据当前游戏进度设置
 			npc_dialog_init();
@@ -74,6 +76,21 @@
 			//anduo_map();
 			//drugstore_map();
 			//lead_first_pass.setPosition(200, 50);
+			/*	<%
+				User user = (User)request.getSession().getAttribute("user");
+				if(user != null)
+				{
+					out.println("game_progress="+user.getGame_progress());
+					out.println("current_scene="+user.getCurrent_scene());
+					out.println("lead_first_pass.x="+(user.getX()%10000));
+					out.println("lead_first_pass.y="+(user.getY()%10000));
+					//out.println("scene_first_pass.exitScene(function(){"+user.getCurrent_scene()+"})");
+					out.println("map.x="+(user.getX()/10000));
+					out.println("map.y="+(user.getY()/10000));
+					out.println(user.getCurrent_scene());
+				}
+			%>*/
+			
 			real_time_game_map();
 			//kekexili_map();
 			//home_scene_map();
@@ -460,6 +477,11 @@
 				path:'img/bullet.png',
 				object:null
 			});
+			res.push({
+				type:FILE_TYPE_IMAGE,
+				path:'img/animals_save.png',
+				object:null
+			});
 			
 			
 			//res.push({
@@ -505,6 +527,15 @@
 			//判断资源是否加载完毕(并且进度条动画也结束了)，如果都加载完毕了，则退出加载界面
 			if(is_load && progress.getParticesCount() == 0)
 			{
+				/*
+				<%
+				//User user = (User)request.getSession().getAttribute("user");
+				if(user != null)
+				{
+					out.println("is_login = true;");
+					out.println("user_name=\""+user.getName()+"\";");
+				}
+				%>*/
 				//用户已登录，开始进入游戏
 				if(is_login == true)
 				{
@@ -836,13 +867,55 @@
 		<object id="flash_game_test" style="display:'';position:absolute;left:10px;bottom:10px;" type="application/x-shockwave-flash" data="flash/copyright.swf" width="400" height="50">
 			<param name="WMODE" value="transparent">
 		</object>
+		
+		<img src="img/logo_back.png" style="position:absolute;width:120;height:120px;left:0px;top:0px;"></img>
+		<img src="img/logo.gif" style="position:absolute;left:15px;top:15px;width:90px;height:90px;"></img>
+		
+		<div style="overflow-y:auto;overflow-y:no;position:absolute;top:10px;right:-110px;width:100px;height:500px;border:1px solid #f00">
+			fadfaffaf<br />
+			flakfdja<br />
+			fasjf<br  />
+			fasjf<br  />
+			fasjf<br  />
+			fasjf<br  />
+			fasjf<br  />
+			fasjf<br  />
+			fasjf<br  />
+			fasjf<br  />
+			fasjf<br  />
+			fasjf<br  />
+			fasjf<br  />
+			fasjf<br  />
+			fasjf<br  />
+			fasjf<br  />
+			fasjf<br  />
+			fasjf<br  />
+			fasjf<br  />
+			fasjf<br  />
+			fasjf<br  />
+			fasjf<br  />
+			fasjf<br  />
+			fasjf<br  />
+			fasjf<br  />
+			fasjf<br  />
+			fasjf<br  />
+			fasjf<br  />
+			fasjf<br  />
+			fasjf<br  />
+			fasjf<br  />
+			fasjf<br  />
+			fasjf<br  />
+			fasjf<br  />
+			fasjf<br  />
+			fasjf<br  />
+			fasjf<br  />
 		</div>
-		<a id="my_a_id" href="#" data-toggle="modal" data-target="#login-modal">fff</a>
+		</div>
 		<!-- 登录 -->
 		<div class="modal fade" id="login-modal" tabindex="-1" role="dialog"
-			aria-labelledby="modal-label" aria-hidden="true">
+			aria-labelledby="modal-label" aria-hidden="true" >
 			<div class="modal-dialog" style="width:300px;">
-				<div class="modal-content">
+				<div class="modal-content" style="background:url(img/background_image.png)">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">
 							<span aria-hidden="true">&times;</span><span class="sr-only">关闭</span>
@@ -851,14 +924,14 @@
 					</div>
 					<div class="modal-body">
 						<form action="UserServlet?action=login" method="post" >
-							用户名：<input type="input" name="name" class="btn btn-default" ></input><br /><br />
-							密&nbsp;&nbsp;&nbsp;码：<input type="input" name="pwd" class="btn btn-default" ></input><br /><br  >
-							<input type="submit" class="btn btn-default" class="btn btn-default" value="登录" style="width:220px;"></input>
+							用户名：<input type="input" name="name" class="form-control" ></input><br /><br />
+							密&nbsp;&nbsp;&nbsp;码：<input type="input" name="pwd" class="form-control" ></input><br /><br  >
+							<input type="submit" class="btn btn-default" class="form-control" value="登录" style="width:220px;background:url(img/color4.bmp)"></input>
 						</form>
 					</div>
 					<div class="modal-footer">
 
-						<button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="modal" data-target="#register-modal">
+						<button type="button"style="background:url(img/color3.bmp)" class="btn btn-default" data-dismiss="modal" data-toggle="modal" data-target="#register-modal">
 							注册
 						</button>
 					</div>
@@ -868,8 +941,8 @@
 		<!--注册-->
 		<div class="modal fade" id="register-modal" tabindex="-1" role="dialog"
 			aria-labelledby="modal-label" aria-hidden="true">
-			<div class="modal-dialog" style="width:300px;">
-				<div class="modal-content">
+			<div class="modal-dialog" style="width:300px;" >
+				<div class="modal-content" style="background:url(img/background_image.png);background-size:cover;">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">
 							<span aria-hidden="true">&times;</span><span class="sr-only">关闭</span>
@@ -878,15 +951,15 @@
 					</div>
 					<div class="modal-body">
 						<form action="UserServlet?action=reg" method="post">
-							用&nbsp;户&nbsp;名：<input type="input" name="name" class="btn btn-default" ></input><br /><br />
-							密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码：<input type="input" name="pwd" class="btn btn-default" ></input><br /><br  >
-							确认密码：<input type="input" name="confirm_pwd"class="btn btn btn-default"></input><br /><br />
-							<input type="submit" class="btn btn-default" class="btn btn-default" value="注册" style="width:220px"></input>
+							用&nbsp;户&nbsp;名：<input type="input" name="name" class="form-control"></input><br /><br />
+							密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码：<input type="input" name="pwd" class="form-control" ></input><br /><br  >
+							确认密码：<input type="input" name="confirm_pwd"class="form-control"></input><br /><br />
+							<input type="submit" class="btn btn-default" class="btn btn-default" value="注册" style="width:220px;background:url(img/color4.bmp)"></input>
 						</form>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="modal" data-target="#login-modal">
-							注册
+						<button type="button" style="background:url(img/color3.bmp)" class="btn btn-default" data-dismiss="modal" data-toggle="modal" data-target="#login-modal">
+							登录
 						</button>
 					</div>
 				</div>

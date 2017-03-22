@@ -201,21 +201,22 @@ function Car(){
 				is_turn = true;		
 			}
 			//行驶到小车的下一个目标的初始化
-				this.grid_destion_x = temp_forward[index].grid_x;
-				this.grid_destion_y = temp_forward[index].grid_y;
-				
-				this.grid_vx = temp_forward[index].vx;
-				this.grid_vy = temp_forward[index].vy;
-				
-				this.vx = this.grid_vx*3;//(Math.random() + 1) * this.grid_vx;
-				this.vy = this.grid_vy*3;//(Math.random() + 1) * this.grid_vy;
-				
-				this.ax = 0;
-				this.ay = 0;
+			this.grid_destion_x = temp_forward[index].grid_x;
+			this.grid_destion_y = temp_forward[index].grid_y;
 			
-				this.destion_x = this.grid_width * temp_forward[index].grid_x;
-				this.destion_y = this.grid_height * temp_forward[index].grid_y;
-				is_run = true;
+			this.grid_vx = temp_forward[index].vx;
+			this.grid_vy = temp_forward[index].vy;
+				
+			this.vx = this.grid_vx*3;//(Math.random() + 1) * this.grid_vx;
+			this.vy = this.grid_vy*3;//(Math.random() + 1) * this.grid_vy;
+				
+			this.ax = 0;
+			this.ay = 0;
+			
+			this.destion_x = this.grid_width * temp_forward[index].grid_x;
+			this.destion_y = this.grid_height * temp_forward[index].grid_y;
+			is_run = true;
+			
 			///-------------------------------------------------------
 			while(temp_forward.length){
 				temp_forward.pop();
@@ -1378,7 +1379,8 @@ function Menu(){
 		this.button[1] = new FGAMES.Button("音效（开）");
 		this.button[1].enable_music = true;
 		this.button[2] = new FGAMES.Button("保存游戏");
-		this.button[3] = new FGAMES.Button("退出游戏");
+		this.button[3] = new FGAMES.Button("新的游戏");
+		this.button[4] = new FGAMES.Button("退出游戏");
 		
 		for(var i = 0; i < this.button.length; i ++)
 		{
@@ -1397,11 +1399,6 @@ function Menu(){
 				this.button[i].setOnTouchBackgroundImage('img/button1_click.png');
 			}
 		}
-		
-	//	this.button[1].setPosition(this.x, this.y);
-	//	this.button[2].setPosition(this.x+this.button[1].getWidth(), this.y);
-	//	this.button[3].setPosition(this.x+this.button[1].getWidth()+this.button[2].getWidth(), this.y);
-		
 		
 		this.button[0].addOnClickListener(function(){
 			menu.visible = false;
@@ -1431,13 +1428,40 @@ function Menu(){
 			"game_progress="+game_progress+"&current_scene="+current_scene+
 			"&x="+(map.x*10000+lead_first_pass.x)+"&y="+(map.y*10000+lead_first_pass.y),
 			function(text){
-				alert(text);
+				if(text == "success")
+					alert("保存成功！");
+				else
+					alert("保存失败！");
 			});
 		});
-		//退出游戏
+		//新的游戏
 		this.button[3].addOnClickListener(function(e){
+			if(confirm("开始新的游戏后之前的游戏数据将消失，确定要重新开始吗？") == true)
+			myajax.reader(
+				"NewGame",
+				"",
+				function(text){
+					if(text == "ok")
+					{
+						menu.visible = false;
+						scene_first_pass.exitScene(function(){
+							game_progress = 0;
+							lead_first_pass.setPosition(0, 530);
+							home_scene_map();
+						});
+					}
+					else
+					{
+						
+					}
+				}
+			);
+			
+		});
+		//退出游戏
+		this.button[4].addOnClickListener(function(e){
 			myajax.reader("logout.jsp",null,function(text){
-				window.localtion.href="index.jsp";
+				window.location.href="index.jsp";
 			});
 		});
 	}
