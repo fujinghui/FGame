@@ -37,6 +37,7 @@
 		var game_progress = 0;				//游戏进度
 		var current_scene = "";
 		var myajax;
+		
 		function load_from_server(){
 			//game_progress:
 			/*
@@ -54,9 +55,16 @@
 			 * 11:第三个游戏闯关成功
 			 * 12:第四个游戏闯关成功
 			 */
-			game_progress = 5;
+			
+			game_progress = 11;
+			//根据当前游戏进度设置
+			npc_dialog_init();
+			npc_ai_init();
+	
 			//home_scene_enter();
 			//real_time_game_map();
+			lead_first_pass.x = 70;
+			lead_first_pass.y = 320;
 			map.x = 0;
 			map.y = 0;
 			//map.show_table_line = true;
@@ -66,9 +74,9 @@
 			//anduo_map();
 			//drugstore_map();
 			//lead_first_pass.setPosition(200, 50);
-			//real_time_game_map();
+			real_time_game_map();
 			//kekexili_map();
-			home_scene_map();
+			//home_scene_map();
 		}
 		/*
 		 * 插入排序
@@ -420,6 +428,36 @@
 			res.push({
 				type:FILE_TYPE_IMAGE,
 				path:'img/dialog_text_background.png',
+				object:null
+			});
+			res.push({
+				type:FILE_TYPE_IMAGE,
+				path:'img/transmit_point.png',
+				object:null
+			});
+			res.push({
+				type:FILE_TYPE_IMAGE,
+				path:'img/china_animals_protect.png',
+				object:null
+			});
+			res.push({
+				type:FILE_TYPE_IMAGE,
+				path:'img/china_animals_protect.png',
+				object:null
+			});
+			res.push({
+				type:FILE_TYPE_IMAGE,
+				path:'img/drugstore.png',
+				object:null
+			});
+			res.push({
+				type:FILE_TYPE_IMAGE,
+				path:'img/meat_market.png',
+				object:null
+			});
+			res.push({
+				type:FILE_TYPE_IMAGE,
+				path:'img/bullet.png',
 				object:null
 			});
 			
@@ -794,6 +832,9 @@
 		</object>
 		<object id="flash_game_test" style="display:none;position:absolute;left:10px;top:10px;" type="application/x-shockwave-flash" data="flash/test.swf" width="300" height="200">
 			
+		</object>
+		<object id="flash_game_test" style="display:'';position:absolute;left:10px;bottom:10px;" type="application/x-shockwave-flash" data="flash/copyright.swf" width="400" height="50">
+			<param name="WMODE" value="transparent">
 		</object>
 		</div>
 		<a id="my_a_id" href="#" data-toggle="modal" data-target="#login-modal">fff</a>

@@ -59,7 +59,7 @@ function init_all_res(){
 	menu_button[0] = new FGAMES.Button("菜单");
 	menu_button[0].setWidth(150);
 	menu_button[0].setHeight(50);
-	menu_button[0].setPosition(0, canvas.height - menu_button[0].getHeight());
+	menu_button[0].setPosition(canvas.width - 150 - menu_button[0].getWidth() - 20, canvas.height - menu_button[0].getHeight());
 	menu_button[0].setDefaultBackgroundImage('img/button1.png');
 	menu_button[0].setOnTouchBackgroundImage('img/button1_click.png');
 	menu_button[0].addOnClickListener(function(){
@@ -68,7 +68,7 @@ function init_all_res(){
 	menu_button[1] = new FGAMES.Button("帮助");
 	menu_button[1].setWidth(150);
 	menu_button[1].setHeight(50);
-	menu_button[1].setPosition(160, canvas.height - menu_button[1].getHeight());
+	menu_button[1].setPosition(canvas.width-menu_button[1].getWidth(), canvas.height - menu_button[1].getHeight());
 	menu_button[1].addOnClickListener(function(){
 	})
 	menu_button[1].setDefaultBackgroundImage('img/button1.png');
@@ -106,6 +106,7 @@ function init_all_res(){
 	map_data_drugstore = FTools.SetMapDataEx(map_flag_drugstore, map_show_drugstore, map_res_drugstore);
 	map_data_kekexili = FTools.SetMapDataEx(map_flag_kekexili, map_show_kekexili, map_res_kekexili);
 	map_data_animal_protect_house = FTools.SetMapDataEx(map_flag_anima_protect_house, map_show_animal_protect_house, map_res_animal_protect_house);
+	map_data_house_slaughter = FTools.SetMapDataEx(map_flag_house_slaughter, map_show_house_slaughter, map_res_house_slaughter);
 	console.log(map_data_animal_protect_house);
 	//FTools.addMapFlag(map_data_anduo_road, map_flag_anduo_road);
 	
@@ -272,20 +273,23 @@ function init_all_res(){
 	houses[3].setPosition(690, 100);
 	
 	houses[4] = new FGAMES.Character();
-	houses[4].init(['img/houses.png']);
+	houses[4].init(['img/houses.png', 'img/meat_market.png']);
+	houses[4].addShowImage({i:1,sx:40,sy:30,sw:420,sh:138,dx:55,dy:-160,dw:100,dh:40});
 	houses[4].addFrame({i:0, x:0, y:0, width:520, height:380});
 	houses[4].setWH(200, 160);
 	houses[4].center_x = 0; houses[4].center_y = 160;
 	houses[4].setPosition(980, 495);
 	houses[4].name = "肉贩市场";
 	
+	//珍稀动物保护协会
 	houses[5] = new FGAMES.Character();
-	houses[5].init(['img/houses.png']);
+	houses[5].init(['img/houses.png', 'img/china_animals_protect.png']);
 	houses[5].addFrame({i:0, x:525, y:0, width:520, height:380});
+	houses[5].addShowImage({i:1,sx:40,sy:33,sw:420,sh:138,dx:105,dy:-190,dw:100,dh:40});
 	houses[5].setWH(300, 180);
 	houses[5].center_x = 0; houses[5].center_y = 180;
 	houses[5].setPosition(300, 390);
-	houses[5].name = "珍稀动物保护协会";
+	//shouses[5].name = "珍稀动物保护协会";
 	
 	//犯罪贩子住的地方
 	houses[6] = new FGAMES.Character();
@@ -295,14 +299,15 @@ function init_all_res(){
 	houses[6].center_x = 0; houses[6].center_y = 180;
 	houses[6].setPosition(800, 715);
 	
-	
+	//药店
 	houses_anduo[0] = new FGAMES.Character();
-	houses_anduo[0].init(['img/houses.png']);
+	houses_anduo[0].init(['img/houses.png', 'img/drugstore.png']);
 	houses_anduo[0].addFrame({i:0, x:0, y:0, width:520, height:380});
+	houses_anduo[0].addShowImage({i:1,sx:40,sy:30,sw:423,sh:140,dx:100,dy:-190,dw:100,dh:40});
 	houses_anduo[0].setWH(300, 180);
 	houses_anduo[0].center_x = 0;houses_anduo[0].center_y = 180;
 	houses_anduo[0].setPosition(160, 495);
-	houses_anduo[0].name = "药店";
+	//houses_anduo[0].name = "药店";
 	
 	
 	for(var i = 0; i < 100; i ++)
@@ -477,7 +482,7 @@ function init_all_res(){
 	npcs_main[3].setWH(78, 80);
 	npcs_main[3].center_x = 0; npcs_main[3].center_y = 80;
 	npcs_main[3].setUpdateTime(200);
-	npcs_main[3].setPosition(650, 400);
+	npcs_main[3].setPosition(635, 400);
 	
 	//屠宰场npc资源初始化
 	for(var is = 0; is < 15; is ++)
@@ -653,6 +658,7 @@ function init_all_res(){
 	}
 	npcs_kekexili[0].setShowFrameRange(6, 6);
 	npcs_kekexili[2].setShowFrameRange(9, 9);
+	npcs_kekexili[1].setShowFrameRange(0, 0);
 	
 	
 	//初始化屠夫房间的墙壁

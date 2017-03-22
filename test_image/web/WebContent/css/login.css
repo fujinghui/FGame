@@ -1,0 +1,160 @@
+@CHARSET "UTF-8";
+.main{
+	position:relative;
+	}
+header{
+	margin:0 auto;
+	}
+header ul{
+	list-style:none;
+	width:200px;
+	height:80px;
+	}
+.login{
+	float:left;
+	width:120px;
+	height:80px;
+	}
+header h2{
+	font-size:18px;
+	color:#000;
+	}
+header b{
+	font-weight:100;
+	font-size:8px;
+	color:#666;
+	padding-bottom:20px;
+	}
+header img{
+	width:100px;
+	height:60px;
+	}
+
+.main section{
+	padding-top:50px;
+	padding-bottom:50px;
+	height:500px;
+	overflow:auto;
+	}
+.main section ul{
+	position:relative;
+	list-style:none;
+	width:300px;
+	height:450px;
+	background:#ffffff;
+	border:#999;
+	border-radius:10px;
+	margin:0 auto;
+	padding-top:10px;
+	padding-bottom:10px;
+	box-shadow:5px 5px 5px rgba(9,9,9,0.5);
+}
+.main section ul li{
+	width:300px;
+	height:80px;
+	margin:0 auto;
+}
+.main section ul li a{
+	display:inline-block;
+text-decoration:none;
+color:#999;
+width:125px;
+height:40px;
+text-align:center;	
+}
+.main section ul li a:hover{
+color:#0080c0;	
+}
+.main section ul li h1{
+	margin-left:80px;	
+	color:#004080;
+	font-weight:bolder;
+}
+.yzm{
+	display:inline-block;
+	width:92px;
+	height:41px;
+	border:#0080c0 1px solid;
+	line-height:41px;
+	text-align:center;
+	}
+.main section input{
+	font-size:13px;
+	letter-spacing:2px;
+	width:250px;
+	height:40px;
+	border:#0080c0 1px solid;
+	text-indent:2em;
+	border-radius:3px;	
+}
+.main section label{
+	margin:0 10px;
+	font-size:14px;
+}
+.main section input[type=radio]{
+	width:15px;
+	height:15px;
+	margin-bottm:0px;
+}
+.wq{
+cursor:pointer;
+color:#000040;
+background:url(../images/button1.png);
+text-align:center;
+}
+.drw{
+	position:absolute;
+	top:350px;
+	left:45px;
+}
+.drw2{
+	position:absolute;
+	top:410px;
+	left:45px;
+}
+.main section input[type=submit]{
+font-size:15px;
+letter-spacing:25px;
+border-radius:3px;
+	}
+.zuo{
+	display:block;
+	position:absolute;
+	width:80px;
+	height:80px;
+	background:rgba(51,51,51,0.5);
+	top:300px;
+	left:100px;
+	color:rgba(255,255,255,0.5);
+	font-size:60px;
+	line-height:80px;
+	text-align:center;
+	border-radius:50%;
+	cursor:pointer;
+	}
+.you{
+	display:block;
+	position:absolute;
+	width:80px;
+	height:80px;
+	background:rgba(51,51,51,0.5);
+	top:300px;
+	right:100px;
+	color:rgba(255,255,255,0.5);
+	font-size:60px;
+	line-height:80px;
+	text-align:center;
+	border-radius:50%;
+	cursor:pointer;
+}
+#zhuce{
+	display:none;	
+}
+#denglu{
+	display:block;	
+}
+footer{
+	text-align:center;
+	color:#6f6f6f;
+	font-size:15px;
+}

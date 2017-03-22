@@ -56,7 +56,7 @@ function Fgame(){
 		this.ai_grid_height = 0;			//AI系统网格高度
 		
 		this.ai_is_run = false;				//角色是否处理正在行走状态
-		
+		this.show_images = new Array();
 		//其他插件类
 		this.others = new Array();
 		this.init = function(imgs){
@@ -67,7 +67,13 @@ function Fgame(){
 			}
 			//在没有添加显示帧的时候，默认显示从头到尾
 			start_index = 0;
-			end_index = imgs.length - 1;
+			end_index = 0;
+			//start_index = 0;
+			//end_index = imgs.length - 1;
+		}
+		this.addShowImage = function(img){
+			//i,sx,sy,sw,wh,dx,dy,dw,dh
+			this.show_images[this.show_images.length] = img;
 		}
 		//AI系统
 		//设置路径			
@@ -396,6 +402,7 @@ function Fgame(){
 			//如果没有添加显示帧，那么就直接显示显示图片
 			if(show_frame.length == 0)
 			{
+				
 				if(width == 0 || height == 0)
 				{
 					context.drawImage(images[show_index], this.x, this.y);
@@ -425,12 +432,22 @@ function Fgame(){
 				{
 				//	console.log("show_index:"+show_index + "   start:" + start_index + " end:" + end_index);
 					//显示的大小为用户设置的角色类的大小
+				//	console.log(show_index);
 					context.drawImage(images[show_frame[show_index].i], show_frame[show_index].x, show_frame[show_index].y,
 						show_frame[show_index].width, show_frame[show_index].height,
 						this.x - this.center_x, this.y - this.center_y, 
 						width, height
 					);
 				}
+			}
+			
+			
+			for(var i = 0; i < this.show_images.length; i ++)
+			{
+			//	console.log(this.show_images[i].i);
+				context.drawImage(images[this.show_images[i].i],
+					this.show_images[i].sx, this.show_images[i].sy, this.show_images[i].sw, this.show_images[i].sh,
+					this.show_images[i].dx+this.x, this.show_images[i].dy+this.y, this.show_images[i].dw, this.show_images[i].dh);
 			}
 			this.x += this.vx;
 			this.y += this.vy;
@@ -674,7 +691,7 @@ function Fgame(){
 			//调用下一层按键处理函数
 			for(var i = 0; i < this.render_list.length; i ++)
 			{
-				if(this.render_list[i].visible && this.render_list[i].visible == true && this.render_list[i].onkeydown)
+				if((this.render_list[i].visible == null || this.render_list[i].visible && this.render_list[i].visible == true) && this.render_list[i].onkeydown)
 				{
 					this.render_list[i].onkeydown(e);	
 				}
@@ -834,6 +851,18 @@ function Fgame(){
 		this.addTransmitPoint = function(s){
 			if(this.transmit_point == null)
 				this.transmit_point = new Array();
+			if(s.auto == null || s.auto == false)
+			{
+				var o = new TransmitPoint();
+				o.image = new Image();
+				o.image.src = "img/transmit_point.png";
+				o.x = s.x;
+				o.y = s.y;
+				o.width = s.w; o.height = s.h;
+				o.xr = parseInt(s.w/2); o.yr = parseInt(s.h/2);
+				o.angle = 0;
+				this.add(o);
+			}
 			this.transmit_point.push(s);
 		}
 		//设置传送点数据
@@ -1035,9 +1064,9 @@ function Fgame(){
 				if(this.transmit_point[i].show == true)
 				{
 					context.fillStyle = "rgb(255, 0, 0)";
-					context.fillRect(this.transmit_point[i].x-this.x, this.transmit_point[i].y-this.y, 
-						this.transmit_point[i].w, this.transmit_point[i].h
-					);
+			//		context.fillRect(this.transmit_point[i].x-this.x, this.transmit_point[i].y-this.y, 
+			//			this.transmit_point[i].w, this.transmit_point[i].h
+			//		);
 //					context.fillRect(10 - this.x, 10 - this.y, 100, 100);
 //					context.fill();
 //					console.log("transmit point");

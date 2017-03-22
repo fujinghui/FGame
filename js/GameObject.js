@@ -599,7 +599,42 @@ function DialogText(obj){
 }
 
 
-
+function TransmitPoint(){
+	FGAMES.Character.call(this, arguments);
+	this.xr = 100;
+	this.yr = 40;
+	this.cx = 0;
+	this.cy = 0;
+	this.angle = 0;
+	this.count = 10;
+	this.visible = true;
+	this.image = null;
+	this.draw = function(context){
+		if(this.visible == false)
+			return;
+		//console.log("fafd");
+		this.cx = this.x + this.width/2;
+		this.cy = this.y + this.height/2;
+		if(this.image)
+		{
+			context.drawImage(this.image, 
+				0, 0, this.image.width, this.image.height,
+				this.cx-this.xr, this.cy-this.yr, this.xr*2, this.yr*2
+			);
+		}
+		context.fillStyle = "rgba(56, 245, 80, 0.7)";
+		//context.fillRect(this.x, this.y, this.width, this.height);
+		for(var i = 0; i < this.count;  i ++)
+		{
+			var xx = this.cx + this.xr * Math.cos(Math.PI * 2 / this.count * i + this.angle);
+			var yy = this.cy - 25 + this.yr * Math.sin(Math.PI * 2 / this.count * i + this.angle);
+			//console.log("x:"+xx);
+			//console.log("y:"+yy);
+			context.fillRect(xx, yy, 2, 15);
+		}
+		this.angle += 0.01;
+	}
+}
 
 //栅栏对象
 function Fence(){
@@ -824,6 +859,8 @@ function Tussle(parent){
 	this.map_data = null;
 	this.map_grid_width=0;
 	this.map_grid_height=0;
+	this.bullet_image = new Image();
+	this.bullet_image.src = "img/bullet.png";
 	this.addEnemy = function(s){
 		this.enemys[this.enemys.length] = s;
 	}
@@ -875,11 +912,18 @@ function Tussle(parent){
 			/*
 			 * 子弹的坐标需要转换成屏幕坐标
 			 */
-			context.fillStyle = "rgb(120, 40, 80)";
-			context.fillRect(this.bullets[i].x-map.x, this.bullets[i].y-map.y, this.bullet_width, this.bullet_height);
-			
+			context.save();
 			this.bullets[i].x += this.bullets[i].vx;
 			this.bullets[i].y += this.bullets[i].vy;
+			context.fillStyle = "rgb(120, 40, 80)";
+			//context.fillRect(this.bullets[i].x-map.x, this.bullets[i].y-map.y, this.bullet_width, this.bullet_height);
+		//	context.translate(this.bullets[i].x+this.bullet_width/2, this.bullets[i].y+this.bullet_height/2);
+			context.drawImage(this.bullet_image, 0, 0, 238, 238, this.bullets[i].x-map.x, this.bullets[i].y-map.y, this.bullet_width, this.bullet_height);
+		//	context.rotate(this.bullets[i].angle);
+		//	context.translate(-(this.bullets[i].x+this.bullet_width/2), -(this.bullets[i].y+this.bullet_height/2));
+
+			
+			context.restore();
 			
 			if(Math.abs(this.bullets[i].x-this.bullets[i].start_x) >= this.bullets[i].distance
 			|| Math.abs(this.bullets[i].y-this.bullets[i].start_y) >= this.bullets[i].distance
@@ -1141,6 +1185,7 @@ function LeadCharacter(){
 						this.tussle.bullets[this.tussle.bullets.length - 1].start_x = this.x-this.tussle.bullet_width;
 						this.tussle.bullets[this.tussle.bullets.length - 1].y = this.y-this.center_y+(this.getHeight()-this.tussle.bullet_width)/2;
 						this.tussle.bullets[this.tussle.bullets.length - 1].start_y = this.tussle.bullets[this.tussle.bullets.length-1].y;
+						this.tussle.bullets[this.tussle.bullets.length - 1].angle = -Math.PI / 2;
 					}
 					else if(this.forward == this.RIGHT)
 					{
@@ -1149,6 +1194,7 @@ function LeadCharacter(){
 						this.tussle.bullets[this.tussle.bullets.length - 1].start_x = this.x+this.getWidth();
 						this.tussle.bullets[this.tussle.bullets.length - 1].y = this.y-this.center_y+(this.getHeight()-this.tussle.bullet_width)/2;
 						this.tussle.bullets[this.tussle.bullets.length - 1].start_y = this.tussle.bullets[this.tussle.bullets.length-1].y;
+						this.tussle.bullets[this.tussle.bullets.length - 1].angle = Math.PI / 2;
 					}
 					else if(this.forward == this.DOWN)
 					{
@@ -1157,7 +1203,7 @@ function LeadCharacter(){
 						this.tussle.bullets[this.tussle.bullets.length - 1].start_x = this.tussle.bullets[this.tussle.bullets.length - 1].x;
 						this.tussle.bullets[this.tussle.bullets.length - 1].y = this.y-this.center_y+(this.getHeight()-this.tussle.bullet_width)/2;
 						this.tussle.bullets[this.tussle.bullets.length - 1].start_y = this.tussle.bullets[this.tussle.bullets.length - 1].y;
-						
+						this.tussle.bullets[this.tussle.bullets.length - 1].angle = Math.PI;
 					}
 					else if(this.forward == this.UP)
 					{
@@ -1166,6 +1212,7 @@ function LeadCharacter(){
 						this.tussle.bullets[this.tussle.bullets.length - 1].start_x = this.tussle.bullets[this.tussle.bullets.length - 1].x;
 						this.tussle.bullets[this.tussle.bullets.length - 1].y = this.y-this.center_y+(this.getHeight()-this.tussle.bullet_width)/2;
 						this.tussle.bullets[this.tussle.bullets.length - 1].start_y = this.tussle.bullets[this.tussle.bullets.length - 1].y;
+						this.tussle.bullets[this.tussle.bullets.length - 1].angle = 1;
 					}			//没有方向,销毁子弹
 					else{
 						this.tussle.bullets.pop();

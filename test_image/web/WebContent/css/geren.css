@@ -1,0 +1,57 @@
+@CHARSET "UTF-8";
+.guanli{
+	width:700px;
+	height:550px;
+	margin-left:300px;;
+}
+.guanli section{
+	width:180px;
+	height:200px;
+	float:left;
+	margin-left:75px;
+	margin-top:60px;
+	margin-right:75px;
+}
+.guanli section a{
+	text-decoration:none;
+}
+.guanli section a:hover{
+	text-decoration:none;
+}
+.guanli section h2{
+	display:block;
+	height:50px;
+	width:180px;
+	font-size:25px;
+	color:white;
+	line-height:50px;
+	background:#0080c0;
+	text-align:center;
+	border-top-left-radius:30px;
+	border-top-right-radius:30px;
+	transition: all 2s;
+-moz-transition:  all 2s;	
+-webkit-transition:  all 2s;
+-o-transition:  all 2s;
+}
+.guanli section article{
+	width:180px;
+	height:200px;
+	background:#000000;
+	border-top-left-radius:30px;
+	border-top-right-radius:30px;
+	border-bottom-left-radius:10px;
+	border-bottom-right-radius:10px;
+	box-shadow:0px 2px 2px rgba(0,0,0,0.5);
+	transition: background 2s;
+-moz-transition: background 2s;	
+-webkit-transition: background 2s;
+-o-transition: background 2s;
+}
+.guanli section h2:hover{
+	background:#0098e1;
+	color:#000000;
+}
+.guanli section article:hover{
+	background:#0080c0;
+}

@@ -51,7 +51,7 @@ function init_first_pass(){
 	//背包对象
 	knap = new Knapsack();
 	knap.visible = false;
-	map.show_table_line = true;
+	map.show_table_line = false;
 	scene_first_pass = new FGAMES.Scene();
 	/*
 	 * 默认为传统的动画模式，此处设置为新的动画模式(之后的游戏场景切换均采用新的(2.0?)动画模式)，
@@ -81,11 +81,8 @@ function init_first_pass(){
 	//设置菜单不显示
 	menu.visible = false;
 	
+
 	load_from_server();
-	
-	npc_dialog_init();
-	npc_ai_init();
-	
 	first_pass_draw();
 }
 function npc_ai_init(){
@@ -283,10 +280,10 @@ function home_scene_map(){
 	//添加主角
 	map.add(lead_first_pass);
 	//添加传送点
-	map.addTransmitPoint({x:440, y:380, w:50, h:50, show:true});		
-	map.addTransmitPoint({x:1050, y:490, w:50, h:25, show:true});		//添加商铺传送点
-	map.addTransmitPoint({x:1270, y:495, w:20, h:50, show:true});
-	map.addTransmitPoint({x:900, y:716, w:100, h:20, show:true});
+	map.addTransmitPoint({x:400, y:390, w:100, h:50, show:true});		
+	map.addTransmitPoint({x:1048, y:498, w:80, h:30, show:true});		//添加商铺传送点
+	//map.addTransmitPoint({x:1270, y:495, w:20, h:50, show:true});
+	//map.addTransmitPoint({x:900, y:716, w:100, h:20, show:true});
 	map.addTransmitPoint({x:1170, y:20, w:65, h:30, show:true});		//安多县
 	//设置传送点的回调函数
 	map.setTransmitPointCallFunc(function(i){
@@ -306,7 +303,7 @@ function home_scene_map(){
 				slaughter_house_map();
 			});
 		}
-		else if(i == 2)						//可可西里
+		else if(i == 22)						//可可西里
 		{
 			scene_first_pass.exitScene(function(){
 				map.x = 0;
@@ -316,7 +313,7 @@ function home_scene_map(){
 				real_time_game_map();		//暂时是跳转到最后一个游戏关卡
 			});
 		}
-		else if(i == 3)						//犯罪分子房间
+		else if(i == 33)						//犯罪分子房间
 		{
 			scene_first_pass.exitScene(function(){
 				map.x = 0;
@@ -325,7 +322,7 @@ function home_scene_map(){
 				crime_house_map();
 			});
 		}
-		else if(i == 4)						//安多县的路上
+		else if(i == 2)						//安多县的路上
 		{
 			scene_first_pass.exitScene(function(){
 				map.x = 0;
@@ -505,6 +502,7 @@ function anduo_road_map(){					//前往安多县的地图
 		npc_car.setShowFrameRange(0, 1);
 		npc_car.setAIEnable(true);
 		map.add(npc_car);
+		system_dialog.setWindow({w:canvas.width, h:canvas.height});
 		system_dialog.setText(FRes.String.dialog2.dialog_10);
 		system_dialog.visible = true;
 		system_dialog.setCallFunc(function(){
@@ -596,10 +594,10 @@ function anduo_map(){
 		npcs_anduo[0].dialog_text.setCallFunc(function(){});
 	}
 	map.addTransmitPoint({x:1105,y:580,w:65,h:30,show:true});			//回到告诉公路
-	map.addTransmitPoint({x:265,y:495,w:100,h:20,show:true});			//医馆
-	map.addTransmitPoint({x:1200,y:55,w:30,h:65,show:true});
+	//map.addTransmitPoint({x:265,y:495,w:100,h:20,show:true});			//医馆
+	map.addTransmitPoint({x:1200,y:55,w:30,h:55,show:true});
 	map.setTransmitPointCallFunc(function(i){
-		if(i == 0)						//到高速公路
+		if(i == 0)									//到高速公路
 		{
 			scene_first_pass.exitScene(function(){
 				map.x = 0;
@@ -608,7 +606,7 @@ function anduo_map(){
 				anduo_road_map();
 			});
 		}
-		else if(i == 1)					//到药店
+		else if(i == 11)							//到药店
 		{
 			scene_first_pass.exitScene(function(){
 				map.x = 0;
@@ -617,7 +615,7 @@ function anduo_map(){
 				drugstore_map();
 			});
 		}
-		else if(i == 2)					//前往可可西里的路途
+		else if(i == 1)					//前往可可西里的路途
 		{
 			scene_first_pass.exitScene(function(){
 				map.x = 0;
@@ -688,7 +686,7 @@ function kekexili_map(){
 	}
 	//add leader
 	map.add(lead_first_pass);
-	map.addTransmitPoint({x:0,  y:220, w:20, h:110, show:true});
+	map.addTransmitPoint({x:0,  y:230, w:30, h:90, show:true});
 	if(game_progress == 8)
 		map.addTransmitPoint({x:200,y:220, w:30, h:110, show:true, auto:true, is_in:false});
 	map.addTransmitPoint({x:910,y:630,w:65,h:30,show:true});

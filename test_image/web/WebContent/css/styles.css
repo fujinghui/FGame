@@ -1,0 +1,285 @@
+.top{
+	height:	50px;
+	background:#000000;
+}
+.top span{
+	width:100px;
+	height:40px;
+	line-height:42px;
+	background:#666;
+	position:absolute;
+	right:0px;
+	top:60px;
+	color:#FFF;
+	font-size:10px;
+	text-align:center;
+	display:none;
+	cursor:pointer;	
+}
+.top nav ul{
+	list-style:none;
+	margin-top:-30px;	
+}
+.top nav ul li{
+	color:#FFF;
+	float:right;
+	width:50px;
+	line-height:50px;
+	cursor:pointer;
+	}
+	
+.top nav ul li:hover{
+	color:#ff1e1e;	
+}
+.top a{
+	text-decoration:none;
+	color:#ff1e1e;
+	width:100px;
+	text-align:center;
+	line-height:50px;
+	float:right;	
+}
+.top a:hover{
+	background:#666;
+	color:#FFF;	
+}
+.top nav ul li a{
+	color:#FFF;
+	float:right;
+	width:50px;
+	line-height:50px;
+	cursor:pointer;
+	}
+.sousuo{
+	position:relative;	
+}
+.sousuo img{
+	float:left;
+	margin-left:550px;
+	width:100px;
+	height:60px;
+}
+.sousuo b{
+	line-height:80px;
+	margin-left:10px;
+	font-size:24px;	
+}
+.sousuo form{
+	position:absolute;
+	top:24px;
+	left:50%;
+	margin-left:-210px;
+}
+.sousuo input:first-child{
+	border:2px #0080c0 solid;
+	text-indent:2em;
+	width:350px;
+	height:35px;		
+}
+.sousuo input[type="button"]{
+	background:#0080c0;
+	border:none;
+	width:70px;
+	height:35px;
+	cursor:pointer;
+	font-size:13px;
+	letter-spacing:4px;
+}
+
+.sousuo div{
+	border-radius:10px;
+	font-size:15px;
+	width:100px;
+	height:35px;
+	background:#0080c0;
+	color:#ffffff;
+	position:absolute;
+	top:24px;
+	right:-200px;
+	line-height:10px;
+	text-align:center;
+	box-shadow:2px 2px 2px rgba(0,0,0,0.5);
+}
+.tuijian h1{
+	clear:both;
+	font-size:26px;
+	font-family:"ºÚÌå"£»
+	margin:0 auto;
+}
+
+ hr{
+  border-color:#cb9898; 
+ }
+.xinxi{
+	float:left;
+	margin: 10px;
+	  }
+.xinxi dl{
+	margin:20px 5px 10px 5px;
+	width:250px;
+	height:350px;
+	border:#999 2px solid;
+	border-radius:10px;
+	box-shadow:5px 5px 5px rgba(0,0,0,0.5);
+	position:relative;
+	}
+.xinxi dl:hover{
+	border:#0080c0 2px solid;
+	box-shadow:10px 10px 10px rgba(0,0,0,0.5);
+}
+.xinxi dd{
+    margin:10px;
+   font-size:15px;
+   font-family:"ºÚÌå"£»
+ }
+.xinxi dd.dd_name
+ {
+ 	text-align:center;
+   color:#661a15;
+  }
+.xinxi dd.dd_city
+ {
+ text-align:center;
+  color:#000;
+  }
+	 
+.zhong{
+	clear:both;
+	position:relative;
+	margin:0 auto;	
+}
+
+.tou h1{
+	margin-left:45%;
+}
+.tou-1{
+	height:50px;
+	line-height:50px;
+	color:#ffffff;
+	background:#0080c0;
+}
+.tou-1 a{
+	color:white;
+}
+.tou-1 a:first-child{
+		margin-left:50px;
+}
+.tou-1 a£ºhover{
+	color:black;
+}
+.content{
+	clear:both;
+}
+
+ .xinxi-detail{
+	      float:left;
+	      margin-left: 30px;
+	      margin-right:30px;
+	      margin-top: 5px;
+	      margin-bottom: 5px;
+	     
+	   }
+	   .xinxi-detail dt img{
+	   	 width:185px;
+	   height:185px;
+	   }
+	   .xinxi-detail dt img:hover{
+	   border:1px #ff0080 solid;
+	   }
+	   .xinxi-detail dd{
+	      margin:10px;
+	      font-size:15px;
+	   }
+	  
+	   .xinxi-detail dd.dd_name
+	   {
+	      color:#ffffff;
+	   }
+	   .xinxi-detail dd.dd_city
+	   {
+	      color:#0080c0;
+	   }
+	   .xinxi-detail #cart
+	   {
+	     margin:0px auto;
+	     text-align:right; 
+	   }
+	 
+	 .zhutu{
+	 width:1000px;
+	 height:500px;
+	 }  
+	  .zhutu tr td{
+	  font-size:24px;
+		font-weight:bolder;
+	  text-align:center;
+	  border:1px #d2d2d2 solid;
+	  color:black;
+	  height:95px;
+	  }
+	  .zhutu tr td b{
+	  font-size:28px;
+	  color:red;
+	  }
+	  .zhutu tr td a input{
+	  width:150px;
+	  height:40px;
+	  margin:5px;
+	  background:#ff4d4d;
+	  color:white;
+	  cursor:pointer;
+	  font-size:14px;
+	  letter-spacing:2px;
+	  }
+	  .zhutu tr td a input:hover{
+	  background:#d70000;	
+	  }
+	   
+	   .cheliebiao{
+	   padding-top:20px;
+	   margin:0 auto;
+	   }
+	   
+	   nav{
+	   text-align:center;
+	   margin-top:20px;
+	   }
+	   nav label{
+	   font-size:20px;
+	   color:#000040;
+	   letter-spacing:20px;
+	   }
+	   nav input{
+	   width:250px;
+	   height:40px;
+	   border:2px solid #0080c0;
+	   text-indent:2em;
+	   letter-spacing:2px;
+	   border-radius:5px;
+	   }
+	   nav textarea{
+	   width:250px;
+	   height:80px;
+	   border:2px solid #0080c0;
+	   text-indent:1em;
+	   letter-spacing:2px;
+	   border-radius:5px;
+	   }
+	   nav button{
+	   width:210px;
+	   height:40px;
+	   text-indent:2em;
+	   letter-spacing:2px;
+	   background:#0080c0;
+	   text-align:center;
+	   color:white;
+	   margin-top:20px;
+	   border-radius:10px;
+	   }
+	    nav button:hover{
+	    background:#00699b;
+	    box-shadow:2px 2px 2px rgba(0,0,0,0.5);
+	    }
+	    nav div{
+	    margin:10px;
+	    }

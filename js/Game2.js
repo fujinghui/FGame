@@ -15,7 +15,7 @@ function real_time_game_map(){
 	for(var i = 0; i < stones.length; i ++)
 		map.add(stones[i]);
 	//添加传送点
-	map.addTransmitPoint({x:6*65,y:0,w:65,h:55,show:true});
+	map.addTransmitPoint({x:6*65,y:20,w:65,h:35,show:true});
 	map.addTransmitPoint({x:22*65,y:21*55,w:65,h:55,show:true,auto:true,is_in:false});
 	map.setTransmitPointCallFunc(function(i){
 		if(i == 0)
@@ -35,6 +35,10 @@ function real_time_game_map(){
 			scoring.kill_enemy_count == 3)
 			{
 				//玩家完成了游戏，进入到主界面
+				scene_first_pass.exitScene(function(){
+						lead_first_pass.setPosition(0, 500);
+						home_scene_map();
+					});
 			}
 			else if(scoring.save_animal_count < 3)
 			{
@@ -122,8 +126,9 @@ function real_time_game_map(){
 				system_dialog.visible = true;
 				system_dialog.setCallFunc(function(){
 					//移除当前场景里的一些（场景）对象
-				//	scene_first_pass.removeObject(mini_map);
-				//	scene_first_pass.removeObject(scoring);
+					scene_first_pass.removeObject(mini_map);
+					scene_first_pass.removeObject(scoring);
+					
 				});
 			}
 		});
